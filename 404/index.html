@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MyShop - 404 Not Found!</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/blessedent/assets/img/cart.bmp">
+    <link rel="stylesheet" href="/blessedent/assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/blessedent/assets/plugins/alertify/css/themes/default.css">
+    <link rel="stylesheet" href="/blessedent/assets/plugins/alertify/css/alertify.min.css">
+    <link rel="stylesheet" href="/blessedent/assets/styles/Samad_Responsive_Layout.css">
+    <link rel="stylesheet" href="/blessedent/assets/styles/style.css">
+    <style type="text/css">
+        header{ text-align: center; display: grid; justify-content: space-between; }
+        header a.navbrand{ height: 64px; display: flex; align-items: center; }
+        header a#activeUser{ display: flex; align-items: center; height: 64px; padding: 0 10px; margin-right: 10px; }
+        .left-sidebar{ display: grid; justify-content: center; align-items: center; }
+        .left-sidebar .fa{ font-size: 15vw; }
+        .right-sidebar p{ font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; letter-spacing: 1px; }
+        .right-sidebar ul{ list-style: none; margin: 0; padding: 0; } .right-sidebar ul li{ margin: 10px 0; } .right-sidebar ul li a{ color: dodgerblue; text-decoration: none; }
+        @media screen and (max-width: 950px){ main .left-sidebar { width: 20%; } main .right-sidebar { margin-left: 20%; width: 80%; padding: 20px; height: 100%; display: grid; align-items: center; } }
+        @media screen and (max-width: 767px){ header a.hamburger{ display: none; } }
+    </style>
+</head>
+<body>
+    
+    <header>
+        <a href="" class="navbrand">MyShop</a>
+        <img src="/blessedent/assets/img/cart.bmp" alt="login-icon">
+        <a class="no-udl clr-inverse" id="activeUser" href="javascript:void(0);" rel="noopener noreferrer" onclick="window.history.go(-1);"><i class="fa fa-arrow-left"></i>&nbsp;Back</a>
+    </header>
+
+    <main>
+        <div class="left-sidebar">
+            <i class="fa fa-warning clr-danger"></i>
+        </div>
+        <div class="right-sidebar" style="justify-content: center;">
+            <div class="container">
+                <div class="row center-block">
+                    <div class="cl-4 cm-6 cs-8 cx-12">
+                        <h1 class="txt-center">Page Not Found</h1>
+                        <hr/>
+                        <br />
+                        <br />
+                        <p>
+                            The Page you are looking for could not be found.
+                            <br/><br/>Either <a href="javascript:void(0);" class="clr-primary" rel="noopener noreferrer" onclick="window.history.go(-1);">Get back</a> to the previous page or try searching another keyword.
+                        </p>
+                        <p class="mt-5">
+                            Either your search query returned nothing or you landed on a wrong page or you are trying to access content which is no longer available on this app. 
+                            <br /><br />Below are some frequently visited places on this app.
+                            <ul>
+                                <li><a href="/blessedent/adm/sales/"><i class="fa fa-caret-right"></i> Make a sale</a></li>
+                                <li><a href="/blessedent/adm/dashboard/"><i class="fa fa-caret-right"></i> Dashboard</a></li>
+                                <li><a href="/blessedent/adm/report/"><i class="fa fa-caret-right"></i> Reports</a></li>
+                                <li><a href="/blessedent/logout.php"><i class="fa fa-caret-right"></i> Switch User</a></li>
+                                <li><a href="/blessedent/adm/about/"><i class="fa fa-caret-right"></i> About System</a></li>
+                            </ul>
+                        </p>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </main>
+
+    <footer class="txt-center" style="text-shadow: 0px 1px 1px #eee; padding: 10px;">
+        <small>
+            <p>&copy; MyShop 2019.</p>Powered by <a href="https://www.softitgh.com" class="no-udl clr-purple"><i class="fa fa-globe"></i> Soft IT Gh</a>
+        </small>
+    </footer>
+
+    <!-- <script src="/blessedent/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="/blessedent/assets/plugins/alertify/alertify.min.js"></script>
+    <script src="/blessedent/assets/chart/chart.js"></script>
+    <script src="/blessedent/assets/js/event.js"></script>
+    <script src="./evt.js"></script> -->
+</body>
+</html>

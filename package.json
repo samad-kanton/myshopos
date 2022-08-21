@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "@uppy/core": "^2.1.5",
+    "@uppy/dashboard": "^2.1.4",
+    "@uppy/xhr-upload": "^2.0.7",
+    "currency.js": "^2.0.4",
+    "date-fns": "^2.29.1",
+    "install": "^0.13.0",
+    "jquery": "^3.6.0",
+    "js-image-zoom": "^0.7.0",
+    "jsbarcode": "^3.11.5",
+    "mathjs": "^10.6.3",
+    "pluralize": "^8.0.0",
+    "uppy": "^2.4.1",
+    "uuid": "^8.3.2"
+  }
+}

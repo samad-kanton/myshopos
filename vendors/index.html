@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="theme-color" content="#4285f4">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">  
+    
+    <title>MyShop OS | Vendors</title>
+
+    <link rel="manifest" href="../manifest.webmanifest">
+
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/img/cart.bmp">
+    <link rel="stylesheet" href="../assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/plugins/alertify/css/themes/default.css">
+    <link rel="stylesheet" href="../assets/plugins/alertify/css/alertify.min.css">
+    <link rel="stylesheet" href="../assets/styles/Samad_Responsive_Layout.css">
+    <link rel="stylesheet" href="../assets/styles/style.css">
+
+    
+
+    <style >
+        main{ background-color: #fff; }
+        main .left-sidebar{ width: unset; border: none; }
+        main .right-sidebar{ width: auto; margin: 0; padding: 0; background-color: rgb(245, 245, 245); }
+        
+        footer{ margin: 0; width: 100%; }
+
+        @media screen and (min-width: 950px){  }
+        @media screen and (min-width: 680px){  }
+        /* @media screen and (max-width: 1280px){ #modal_printStock .wrapper{ width: 400px; } #modal_reconcilliation .wrapper{ width: 900px; } }
+        @media screen and (max-width: 950px){ }*/
+        @media screen and (max-width: 767px){ }
+        @media screen and (max-width: 500px){  } 
+    </style>
+
+    <script src="../assets/js/jquery-3.3.1.min.js"></script>
+    <script src="../assets/plugins/alertify/alertify.min.js"></script>
+</head>
+<body>
+    
+    <header>
+        <div class="navbrand">
+            <img class="app-icon" src="../assets/img/cart.bmp" alt="App Icon">
+            <a href="">
+                <b>MyShop OS</b>
+                <small>#1 Smart Billing App</small>
+            </a>
+        </div>
+        <div class="swiper" id="navMenuSwiper">
+            <div class="swiper-wrapper">
+                <a href="../dashboard" class="swiper-slide"><i class="fa fa-dashboard"></i> Dashboard</a>
+                <a href="../pos" class="swiper-slide"><i class="fa fa-shopping-cart"></i> POS</a>
+                <a href="javascript:void(0);" class="swiper-slide active"><i class="fa fa-truck"></i> VENDORS</a>
+                <a href="../stock" class="swiper-slide"><i class="fa fa-shopping-basket"></i> STOCK</a>
+                <a href="../staff" class="swiper-slide"><i class="fa fa-user"></i> STAFF</a>
+                <a href="../finance" class="swiper-slide"><i class="fa fa-money"></i> FINANCE</a>
+                <a href="../report" class="swiper-slide"><i class="fa fa-bar-chart"></i> REPORT</a>
+                <a href="../config" class="swiper-slide"><i class="fa fa-cog"></i> CONFIG</a>
+            </div>
+        </div>
+        <div>
+            <a href="javascript:void(0);">
+                <img src="../assets/img/avatar.jpg" alt="" width="30px" height="30px" />
+                <i class="fa fa-caret-up"></i>
+            </a>                      
+            <menu>
+                <section>
+                    <img src="../assets/img/avatar.jpg" alt="" width="80px" height="80px" />
+                    <small></small>
+                </section>
+                <section>
+                    <a href="javascript:void(0);" id="btnUpdate"><i class="fa fa-edit fa-2x"></i><small>Update</small></a> 
+                    <a href="javascript:void(0);" id="btnLogout"><i class="fa fa-power-off fa-2x"></i><small>Logout</small></a> 
+                </section>
+            </menu>
+        </div>
+    </header>
+
+    <main style="padding-top: 1.5em;">
+        <div class="right-sidebar" style="align-items: start;">
+            <!-- <div id="example-table"></div> -->
+            <div class="container bg-white">
+                <!-- <h2 class="txt-center"><u>INVENTORY</u></h2> -->
+                <div class="row">
+                    <div class="cl-4 cm-4 cs-12 cx-12">
+                        <h3 class="cl-12 cm-12 cs-12 cx-12 txt-center"><u>SUPPLIER PROFILE</u></h3>
+                        <form role="form" id="crudTransactions" autocomplete="off" enctype="multipart/form-data">
+                            <div class="row">
+                                <!-- <div class="cl-6 cm-7 cs-6 cx-6">
+                                    <div class="form-group">
+                                        <div class="date-container">
+                                            <input type="date" name="transDate" id="transDate" required>
+                                            <label for="transDate" class="floated-up-lbl" style="top: -5px;">Transaction Date</label>
+                                            <sup class="required"><i class="fa fa-asterisk clr-danger"></i></sup>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <!-- <div class="cl-6 cm-5 cs-6 cx-6">
+                                    <div class="form-group">
+                                        <input type="number" name="amt" id="amt" required>
+                                        <label for="amt" class="floated-up-lbl">Amount</label>
+                                        <sup class="required"><i class="fa fa-asterisk clr-danger"></i></sup>
+                                    </div>
+                                </div>                       
+                                <div class="cl-6 cm-6 cs-4 cx-7">
+                                    <div class="form-group">
+                                        <div class="select-container">
+                                            <select name="activity" id="activity">
+                                                <option value="">--- select ---</option>
+                                                <option value="1">Payment<i class="fa fa-chevron-circle-up"></i></option>
+                                                <option value="2">Receive</option>
+                                                <option value="3">Deposit</option>
+                                            </select>
+                                            <label for="activity" class="floated-up-lbl" style="top: -5px;">Activity</label>
+                                            <sup class="required"><i class="fa fa-asterisk clr-danger"></i></sup>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="cl-8 cm-12 cs-9 cx-12">
+                                    <div class="form-group">
+                                        <input type="text" name="sup_name" id="sup_name" class="txt-u" required>
+                                        <label for="sup_name" class="floated-up-lbl" style="top: -5px;">Supplier Name</label>
+                                        <sup class="required"><i class="fa fa-asterisk clr-danger"></i></sup>
+                                    </div>
+                                </div>    
+                                <div class="cl-4 cm-12 cs-3 cx-12">
+                                    <div class="form-group">
+                                        <input type="text" name="sup_vat" id="sup_vat" class="txt-u">
+                                        <label for="sup_vat" class="floated-up-lbl" style="top: -5px;">TIN No.</label>
+                                    </div>
+                                </div>  
+                                <div class="cl-6 cm-6 cs-3 cx-6">
+                                    <div class="form-group">
+                                        <input type="tel" minlength="10" maxlength="10" name="phone" id="phone" class="txt-u" required>
+                                        <label for="phone" class="floated-up-lbl" style="top: -5px;">Phone</label>
+                                        <sup class="required"><i class="fa fa-asterisk clr-danger"></i></sup>
+                                    </div>
+                                </div>  
+                                <div class="cl-6 cm-6 cs-3 cx-6">
+                                    <div class="form-group">
+                                        <input type="tel" minlength="10" maxlength="10" name="mobile" id="mobile" class="txt-u">
+                                        <label for="mobile" class="floated-up-lbl" style="top: -5px;">Mobile</label>
+                                    </div>
+                                </div> 
+                                <div class="cl-6 cm-6 cs-6 cx-6">
+                                    <div class="form-group">
+                                        <input type="email" name="email" id="email" class="txt-u">
+                                        <label for="email" class="floated-up-lbl" style="top: -5px;">Email Address</label>
+                                    </div>
+                                </div>       
+                                <div class="cl-12 cm-12 cs-12 cx-12">
+                                    <div class="form-group">
+                                        <textarea name="loc" id="loc" rows="1" maxlength="250"></textarea>
+                                        <label for="loc" class="floated-up-lbl">Location Address</label>
+                                    </div>
+                                </div>
+                                <div class="cl-12 cm-12 cs-12 cx-12">
+                                    <div class="form-group center-block">
+                                        <button type="submit" class="btn btn-lg btn-primary  new" name="submit"><i class="fa fa-save"></i> Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form> 
+                    </div> 
+                    <div class="cl-8 cm-8 cs-12 cx-12" tyle="position: relative;">
+                        <div class="row">
+                            <div class="cl-4 cm-4 cs-4 cx-5">
+                                <div class="form-group">                               
+                                    <button type="button" id="btnExport_transactions" class="btn btn-teal dropdown">
+                                        <span>Export To <i class="fa fa-caret-down"></i></span>
+                                        <div class="dropdown-menu">
+                                            <a href="javascript:void(0);" class="no-udl clr-inverse"><i class="fa fa-print"></i> Printer</a>
+                                            <a href="javascript:void(0);" class="no-udl clr-success"><i class="fa fa-file-excel-o"></i> Excel</a>
+                                            <a href="javascript:void(0);" class="no-udl clr-danger"><i class="fa fa-file-pdf-o"></i> PDF</a>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="cl-8 cm-8 cs-8 cx-7 search-pane float-xs">
+                                <div class="form-group">
+                                    <input type="search" id="find_transactions" placeholder="Search by account type, name or number...">
+                                    <label for="find_transactions" style="cursor: pointer;"><i class="fa fa-search clr-primary" style="width: 40px; height: 40px; display: flex; justify-content: center; align-items: center;"></i></label>
+                                </div>
+                            </div>
+                            <div class="cl-12 cm-12 cs-12 cx-12" style="display: grid;">
+                                <div id="transactions-table" style="margin: 0 10px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class="ajax-page" id="manageAccounts">
+                <div class="title" style="display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
+                    <span>MANAGE ACCOUNTS</span>
+                    <a href="javascript:void(0);" class="close clr-danger no-udl" style="position: unset; top: unset; padding: unset;" onclick="$(event.target).closest('.ajax-page').removeClass('open');"><i class=""></i>&times;</a>
+                </div>
+                <div class="content">
+                    <div class="row" style="position: relative;">
+                        <div class="cl-3 cm-3 cs-4 cx-5">
+                            <div class="form-group">                               
+                                <button type="button" id="btnExport_accounts" class="btn btn-teal dropdown">
+                                    <span>Export To <i class="fa fa-caret-down"></i></span>
+                                    <div class="dropdown-menu">
+                                        <a href="javascript:void(0);" class="no-udl clr-inverse"><i class="fa fa-print"></i> Printer</a>
+                                        <a href="javascript:void(0);" class="no-udl clr-success"><i class="fa fa-file-excel-o"></i> Excel</a>
+                                        <a href="javascript:void(0);" class="no-udl clr-danger"><i class="fa fa-file-pdf-o"></i> PDF</a>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="cl-9 cm-9 cs-8 cx-7 search-pane float-xs">
+                            <div class="form-group">
+                                <input type="search" id="find_account" placeholder="Search by account type, name or number...">
+                                <label for="find_account" style="cursor: pointer;"><i class="fa fa-search clr-primary" style="width: 40px; height: 40px; display: flex; justify-content: center; align-items: center;"></i></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="accounts-table" style="margin: 0 10px;"></div>
+                </div>
+            </div>
+        </div>
+    </main> 
+
+    <script src="../assets/plugins/tabulator-master/dist/js/tabulator.min.js"></script>
+    <script src="../assets/plugins/tabulator-master/dist/xlsx.full.min.js"></script>
+    <script src="../assets/plugins/tabulator-master/dist/jspdf.min-1.3.5.js"></script>
+    <script src="../assets/plugins/tabulator-master/dist/jspdf.plugin.autotable-3.0.5.js"></script>
+    
+    <script src="../assets/plugins/loadash-4.15.0.js"></script>
+    <script src="../assets/plugins/moment-with-locales.min.js"></script>
+    
+    <script type="module" src="evt.js"></script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="theme-color" content="#4285f4">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">  
+
+    <title>MyShop OS | Contacts</title>
+    
+    <link rel="manifest" href="../manifest.webmanifest">
+    
+    <link rel="apple-touch-icon" sizes="64x64" href="/assets/icons/64x64.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="/assets/icons/xxxhdpi.png">
+    <link rel="apple-touch-icon" sizes="256x256" href="/assets/icons/256x256.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="/assets/icons/512x512.png">
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/img/cart.bmp">
+
+    <link rel="stylesheet" href="../assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/plugins/alertify/css/themes/default.css">
+    <link rel="stylesheet" href="../assets/plugins/alertify/css/alertify.min.css">
+    <link rel="stylesheet" href="../assets/styles/Samad_Responsive_Layout.css">
+    <link rel="stylesheet" href="../assets/styles/style.css">
+    <style type="text/css">
+
+        main{ background-color: #fff; }
+
+        main .left-sidebar{ width: unset; border: none; }
+        main .right-sidebar{ width: auto; margin: 0; padding: 0; }
+
+        #fontPreview { height: 40px; text-align: center; background: repeating-linear-gradient(-45deg, #f7f5ff, #f7f5ff 5px, #ccc 5px, #ccc 10px); display: grid; justify-content: center; align-items: center; }
+
+        @media screen and (min-width: 950px){ }
+        @media screen and (max-width: 767px){  }
+        @media screen and (max-width: 500px){  } 
+    </style>
+    <!-- <script src="../assets/plugins/tailwindcss-3.0.0.js"></script> -->
+
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet">
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css' type='text/css' />
+    
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js'></script>
+    
+</head>
+<body>
+    
+    <header>
+        <div class="navbrand">
+            <img class="app-icon" src="../assets/img/cart.bmp" alt="App Icon">
+            <a href="">
+                <b>MyShop OS</b>
+                <small>#1 Smart Billing App</small>
+            </a>
+        </div>
+        <div class="swiper" id="navMenuSwiper">
+            <div class="swiper-wrapper">
+                <a href="../dashboard" class="swiper-slide"><i class="fa fa-dashboard"></i> DASHBOARD</a>
+                <a href="../pos" class="swiper-slide"><i class="fa fa-shopping-cart"></i> POS</a>
+                <a href="../contacts" class="swiper-slide active"><i class="fa fa-handshake-o"></i> CONTACTS</a>
+                <a href="../stock" class="swiper-slide"><i class="fa fa-shopping-basket"></i> STOCK</a>
+                <a href="../staff" class="swiper-slide"><i class="fa fa-user"></i> STAFF</a>
+                <a href="../finance" class="swiper-slide"><i class="fa fa-money"></i> FINANCE</a>
+                <a href="../report" class="swiper-slide"><i class="fa fa-bar-chart"></i> REPORT</a>
+                <a href="../config" class="swiper-slide"><i class="fa fa-cog"></i> CONFIG</a>
+            </div>
+        </div>
+        <div style="position: unset;">
+            <a href="javascript:void(0);" id="btnShowNotifs">
+                <i class="fa fa-bell-o"></i>
+                <small id="badge" style="position: absolute; top: 13px; left: calc(100% - 27px); border-radius: 50%; font-size: 13px; text-align: center;"></small>
+            </a> 
+        </div>
+        <div>
+            <a href="javascript:void(0);">
+                <img class="activeUser_avatar" src="../assets/img/avatar.jpg" alt="" width="30px" height="30px" />
+                <i class="fa fa-caret-up"></i>
+            </a>                      
+            <menu>
+                <section>
+                    <img  class="activeUser_avatar" src="../assets/img/avatar.jpg" alt="" width="80px" height="80px" />
+                    <small></small>
+                </section>
+                <section>
+                    <a href="javascript:void(0);" id="btnHelp"><i class="fa fa-info-circle fa-2x"></i><small>Help</small></a>
+                    <a href="javascript:void(0);" id="btnLogout"><i class="fa fa-power-off fa-2x"></i><small>Logout</small></a> 
+                </section>
+            </menu>
+        </div>
+    </header>
+
+    <main> 
+        <!-- <div id="map" style="width: 100%; height: 100%;"></div>        -->
+        <div class="right-sidebar" style="display: unset;">
+            <div id="toolbar" style="display: flex; justify-content: space-between; align-items: center;">
+                <div id="links">
+                    <button type="button" class="btn btn-primary my-tabulator-buttons" id="createContact" style="background: none; border: solid 1px dodgerblue; color: dodgerblue;"><i class="fa fa-plus"></i><br/>Create</button>
+                    <button type="button" id="btnExport_contacts" class="btn btn-teal dropdown">
+                        <span><i class="fa fa-share-alt"></i><br/>Export</span>
+                        <div class="dropdown-menu">
+                            <a href="javascript:void(0);" class="no-udl clr-inverse" id="printCustomer"><i class="fa fa-print"></i> Printer</a>
+                            <a href="javascript:void(0);" class="no-udl clr-success" id="exportCustomer_excel"><i class="fa fa-file-excel-o"></i> Excel</a>
+                            <a href="javascript:void(0);" class="no-udl clr-danger" id="exportCustomer_pdf"><i class="fa fa-file-pdf-o"></i> PDF</a>
+                        </div>
+                    </button>
+                </div>
+                <div class="form-group search-pane float-xs">
+                    <input disabled type="search" id="search_Customer" placeholder="Search Customer...">
+                    <label for="search_Customer" style="cursor: pointer;"><i class="fa fa-search clr-primary" style="width: 40px; height: 40px; display: flex; justify-content: center; align-items: center;"></i></label>
+                </div>
+            </div> 
+
+            <div id="table-contacts" class="form-group"></div>
+             
+        </div>
+    </main>
+
+    <!-- <footer class="txt-center" style="text-shadow: 0px 1px 1px #eee; padding: 10px;">
+        <div id="wrapper">
+            <small><sup>&copy;</sup>2015 - <span class="curAppDate"></span>. All Rights Reserved</small>
+            <small>Powered by <a href="https://www.myshopos.com" class="no-udl"><i class="fa fa-globe"></i> MyShop OS</a></small>
+        </div>
+    </footer> -->
+
+    <script src="../assets/js/jquery-3.3.1.min.js"></script>
+    <script src="../assets/plugins/alertify/alertify.min.js"></script>
+    <script src="../assets/plugins/notify.js"></script>
+
+    <script src="../assets/plugins/filepond/dist/filepond-plugin-image-preview.js"></script>
+    <script src="../assets/plugins/filepond/dist/filepond-plugin-image-exif-orientation.js"></script>
+    <script src="../assets/plugins/filepond/dist/filepond-plugin-file-validate-type.js"></script>
+    <script src="../assets/plugins/filepond/dist/filepond-plugin-image-crop.js"></script>
+    <script src="../assets/plugins/filepond/dist/filepond-plugin-image-resize.js"></script>
+    <script src="../assets/plugins/filepond/dist/filepond-plugin-image-transform.js"></script>
+    <script src="../assets/plugins/filepond/dist/filepond-plugin-image-edit.js"></script>
+    <script src="../assets/plugins/filepond/dist/filepond.js"></script>
+
+    <script src="../assets/plugins/tabulator-master/dist/js/tabulator.min.js"></script>
+
+    <script src="../assets/plugins/loadash-4.15.0.js"></script>
+    <script src="../assets/plugins/moment-with-locales.min.js"></script>
+
+    <script src="../assets/plugins/he.js"></script>
+    <script src="../assets/plugins/ysEditor.js-master/dist/js/yseditor.min.js"></script>
+
+    <script src="../assets/plugins/uppy/uppy.min.js"></script>  
+
+    <script type="module" src="../assets/js/event.js"></script>
+    <script defer type="module" src="evt.js"></script>
+</body>
+</html>

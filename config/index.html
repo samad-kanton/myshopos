@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="theme-color" content="#4285f4">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">  
+
+    <title>MyShop OS | Configuration</title>
+    
+    <link rel="manifest" href="../manifest.webmanifest">
+    
+    <link rel="apple-touch-icon" sizes="64x64" href="/assets/icons/64x64.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="/assets/icons/xxxhdpi.png">
+    <link rel="apple-touch-icon" sizes="256x256" href="/assets/icons/256x256.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="/assets/icons/512x512.png">
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/img/cart.bmp">
+
+    <link rel="stylesheet" href="../assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/plugins/alertify/css/themes/default.css">
+    <link rel="stylesheet" href="../assets/plugins/alertify/css/alertify.min.css">
+    <link rel="stylesheet" href="../assets/styles/Samad_Responsive_Layout.css">
+    <link rel="stylesheet" href="../assets/styles/style.css">
+    <style type="text/css">
+
+        body{ overflow-y: hidden; }
+
+        main{ background: #fff; padding: 15px 0; }
+        main .left-sidebar{ width: unset; border: none; }
+        main .right-sidebar{ width: auto; margin: 0; padding: 0; }
+
+        .swiper#pageTapSwiper .swiper-slide.main:not(:first-child){ height: calc(100vh - 110px); overflow: hidden; overflow-y: auto; /*background: #140c1b;*/ }
+
+        .swiper.sub{ height: calc(100vh - 115px); }
+        .swiper.sub .swiper-slide{ width: calc(100% - 70px) !important; margin-left: 70px; overflow-y: auto; }
+        .swiper.sub .swiper-pagination{ width: 70px; overflow-y: auto; height: 100% !important; left: 0; background: #271735 !important; display: flex !important; flex-flow: column; justify-content: start;gap: 0; box-shadow: none !important; }
+        .swiper.sub .sub-tab{ width: inherit; height: auto; margin: 0; padding: 10px 5px !important; opacity: 1; background: inherit; color: #ecdafc; border-radius: 0; display: grid; gap: 5px; align-items: center; transition: all .38s ease-in-out; }
+        .swiper.sub .sub-tab:not(:last-child){ border-bottom: solid 1px #654085; }
+        .swiper.sub .activeSubTab{ position: relative; color: #fff; font-weight: bold; }
+        .swiper.sub .activeSubTab::after{ content: ""; position: absolute; top: 50%; left: calc(100% - 10px); transform: translate(-50%, -50%); border-top: solid 10px transparent; border-right: solid 10px #fff; border-bottom: solid 10px transparent; border-left: solid 10px transparent; }
+
+        .opp-line { text-align: center; display: grid; grid-template-columns: 1fr auto 1fr; grid-gap: 20px; }
+
+        .pricing-plans{ display: grid; gap: 20px; grid-template-rows: repeat(3, 1fr); grid-template-columns: repeat(11, 1fr); justify-content: space-between; }
+        .pricing-plans .plan{ display: grid; border: solid 1px #eee; border-top: dotted 3px #271735; color: #271735; padding: 10px; box-shadow: 0 0 20px 1px rgba(0, 0, 0, .04); transition: all .38s ease-in-out; }
+        .pricing-plans .plan.subscribed{ border-top: dotted 3px dodgerblue; }
+        .pricing-plans .plan .title{ font-size: 18px; font-weight: 800; }
+        .pricing-plans .plan .subscribed{ font-size: 14px; }
+        .pricing-plans .plan .description{ font-size: 14px; }
+        .pricing-plans .plan .features{ font-size: 14px; }
+        .pricing-plans .plan .features ul{ margin: 0; padding: 10px; }
+        .pricing-plans .plan .price{ font-size: 2.5em; display: flex; align-items: center; justify-content: space-between; }
+        .pricing-plans .plan .price sub{ font-size: 14px;  }
+        .pricing-plans .plan:hover{ box-shadow: 0 0 20px 1px rgba(0, 0, 0, .1); }
+        .plan.basic{ grid-row: 1 / 6; grid-column: 1 / 4; }
+        .plan.pro{ grid-row: 3 / 8; grid-column: 5 / 8; }
+        .plan.ultimate{ grid-row: 5 / 10; grid-column: 9 / 12; } 
+
+        #fontPreview { height: 40px; text-align: center; background: repeating-linear-gradient(-45deg, #f7f5ff, #f7f5ff 5px, #ccc 5px, #ccc 10px); display: grid; justify-content: center; align-items: center; }
+
+        @media screen and (max-width: 1280px){ .pricing-plans{ grid-template-columns: repeat(3, 1fr); } .plan.basic{ grid-row: 1 / 6; grid-column: 1; } .plan.pro{ grid-row: 4 / 9; grid-column: 2; } .plan.ultimate{ grid-row: 7 / 12; grid-column: 3; } }
+        @media screen and (max-width: 1080px){ .pricing-plans{ grid-template-columns: repeat(2, 1fr); } .plan.ultimate{ grid-column: 1; } }
+        /* @media screen and (max-width: 768px){ .pricing-plans{ grid-template-columns: repeat(4, 1fr); } .plan.basic{ grid-column: 1 / 3; } .plan.pro{ grid-row: 6 / 12; grid-column: 3 / 5; } .plan.ultimate{ grid-column: 1 / 3; } } */
+        @media screen and (max-width: 500px){ .pricing-plans{ grid-template-columns: 1fr; } .plan.basic{ grid-column: 1 / 1; } .plan.pro{ grid-row: 6 / 11; grid-column: 1 / 1; } .plan.ultimate{ grid-row: 11 / 16; grid-column: 1; } }  
+        
+        @supports (display: grid) {
+            h3:before, h3:after { content: ""; align-self: center; border-top: 1px solid #999; }
+        }
+
+    </style>
+</head>
+<body>
+    
+    <header>
+        <div class="navbrand">
+            <img class="app-icon" src="../assets/img/cart.bmp" alt="App Icon">
+            <a href="">
+                <b>MyShop OS</b>
+                <small>#1 Smart Billing App</small>
+            </a>
+        </div>
+        <div class="swiper" id="navMenuSwiper">
+            <div class="swiper-wrapper">
+                <a href="../dashboard" class="swiper-slide"><i class="fa fa-dashboard"></i> DASHBOARD</a>
+                <a href="../pos" class="swiper-slide"><i class="fa fa-shopping-cart"></i> POS</a>
+                <a href="../orders" class="swiper-slide"><i class="fa fa-handshake-o"></i> CONTACTS</a>
+                <a href="../stock" class="swiper-slide"><i class="fa fa-shopping-basket"></i> STOCK</a>
+                <a href="../staff" class="swiper-slide"><i class="fa fa-user"></i> STAFF</a>
+                <a href="../finance" class="swiper-slide"><i class="fa fa-money"></i> FINANCE</a>
+                <a href="../report" class="swiper-slide"><i class="fa fa-bar-chart"></i> REPORT</a>
+                <a href="javascript:void(0);" class="swiper-slide active"><i class="fa fa-cog"></i> CONFIG</a>
+            </div>
+        </div>
+        <div style="position: unset;">
+            <a href="javascript:void(0);" id="btnShowNotifs">
+                <i class="fa fa-bell-o"></i>
+                <small id="badge" style="position: absolute; top: 13px; left: calc(100% - 27px); border-radius: 50%; font-size: 13px; text-align: center;"></small>
+            </a> 
+        </div>
+        <div>
+            <a href="javascript:void(0);">
+                <img class="activeUser_avatar" src="../assets/img/avatar.jpg" alt="" width="30px" height="30px" />
+                <i class="fa fa-caret-up"></i>
+            </a>                      
+            <menu>
+                <section>
+                    <img  class="activeUser_avatar" src="../assets/img/avatar.jpg" alt="" width="80px" height="80px" />
+                    <small></small>
+                </section>
+                <section>
+                    <a href="javascript:void(0);" id="btnHelp"><i class="fa fa-info-circle fa-2x"></i><small>Help</small></a>
+                    <a href="javascript:void(0);" id="btnLogout"><i class="fa fa-power-off fa-2x"></i><small>Logout</small></a> 
+                </section>
+            </menu>
+        </div>
+    </header>
+
+    <main>        
+        <div class="right-sidebar" style="display: unset;">
+            <!-- Slider main container -->
+            <div class="swiper" id="pageTapSwiper">
+                <!-- Additional required wrapper -->
+                <div class="swiper-wrapper">
+                    <!-- Slides -->
+                    <div class="swiper-slide main" id="companySetup">
+                        <div class="swiper sub">
+                            <div class="swiper-wrapper sub">
+                                <div class="swiper-slide sub">
+                                    <h3 class="form-group opp-line">ABOUT YOUR BUSINESS</h3>
+                                    <div class="row">
+                                        <div class="cl-12 cm-12 cs-12 cx-12" id="form-wrapper">
+                                            <form role="form" id="crud-company" autocomplete="off" enctype="multipart/form-data" style="overflow: hidden;">
+                                                <div class="row">
+                                                    <div class="cl-12 cm-12 cs-12 cx-12">
+                                                        <div class="row">
+                                                            <div class="cl-5 cm-5 cs-5 cx-12">
+                                                                <div class="form-group">
+                                                                    <div id="company_logo"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="cl-7 cm-7 cs-7 cx-12">
+                                                                <div class="row">
+                                                                    <div class="cl-12 cm-12 cs-12 cx-12">
+                                                                        <div class="form-group">
+                                                                            <input type="text" maxlength="72" name="company_name" id="company_name" class="txt-u" required>
+                                                                            <label for="company_name" class="floated-up-lbl">Business Name</label>
+                                                                            <sup class="required"><span class="clr-primary">Max Characters: 25</span> <i class="fa fa-asterisk clr-danger"></i></sup>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="cl-12 cm-12 cs-12 cx-12">
+                                                                        <div class="form-group">
+                                                                            <input type="text" maxlength="100" name="slogan" id="slogan" class="txt-u" placeholder="tagline or nickname" />
+                                                                            <label for="slogan" class="floated-up-lbl" style="top: -5px;">Slogan</label>
+                                                                            <sup class="required clr-primary">Max Characters: 100</sup>
+                                                                        </div>
+                                                                    </div>  
+                                                                    <div class="cl-6 cm-6 cs-6 cx-12">
+                                                                        <div class="form-group">
+                                                                            <input type="text" maxlength="25" name="tax_id" id="tax_id" class="txt-u" placeholder="TIN or SSNIT" />
+                                                                            <label for="tax_id" class="floated-up-lbl" style="top: -5px;">TAX ID</label>
+                                                                            <sup class="required clr-primary">Max Characters: 25</sup>
+                                                                        </div>
+                                                                    </div>  
+                                                                    <div class="cl-6 cm-6 cs-6 cx-12">
+                                                                        <div class="form-group">
+                                                                            <input type="text" name="industry" id="industry" class="selectMode txt-u" required />
+                                                                            <label for="industry" class="floated-up-lbl" style="top: -5px;">Industry</label>
+                                                                            <sup class="required"><i class="fa fa-asterisk clr-danger"></i></sup>
+                                                                        </div>
+                                                                    </div>                                               
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>                                     
+                                                    <div class="cl-6 cm-6 cs-12 cx-12">
+                                                        <div class="form-group" style="padding-top: 10px;">
+                                                            <div id="phone"></div>
+                                                            <label for="phone" class="floated-up-lbl" style="top: -5px;">Contact Numbers </label>
+                                                            <sup class="required"><span class="clr-primary">Max Length: 10 digits</span> <i class="fa fa-asterisk clr-danger"></i></sup>
+                                                        </div>
+                                                    </div>                                                        
+                                                    <div class="cl-6 cm-6 cs-12 cx-12">
+                                                        <div class="form-group" style="padding-top: 10px;">
+                                                            <div id="email"></div>
+                                                            <label for="email" class="floated-up-lbl" style="top: -5px;">Email Address </label>
+                                                            <sup class="required clr-primary">Email must have <i class="fa fa-at"></i></sup>
+                                                        </div>
+                                                    </div>
+                                                    <div class="cl-12 cm-12 cs-12 cx-12">
+                                                        <div class="form-group">
+                                                            <div id="website"></div>
+                                                            <label for="website" class="floated-up-lbl" style="top: -5px;">Web Address </label>
+                                                            <sup class="required"><span class="clr-primary">Active Web URL's</span></sup>
+                                                        </div>
+                                                    </div>
+                                                    <div class="cl-12 cm-12 cs-12 cx-12">
+                                                        <div class="form-group">
+                                                            <br/>
+                                                            <div id="addr" class="txt-u"></div>
+                                                            <label for="addr" class="floated-up-lbl" style="top: -5px;">Work / Business Location</label>
+                                                            <sup class="required"><i class="fa fa-asterisk clr-danger"></i></sup>
+                                                        </div>
+                                                    </div>
+                                                    <div class="cl-12 cm-12 cs-12 cx-12">
+                                                        <div class="form-group btn-group txt-right">
+                                                            <button type="submit" class="btn btn-lg btnFormSubmitter new" name="submit"><i class="fa fa-save"></i> Save</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>  
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide sub">
+                                    <h3 class="form-group opp-line">BILLING & SUBSCRIPTION</h3>
+                                    <div class="form-group pricing-plans">
+                                        <div class="plan basic">
+                                            <div class="title">MyshopOS Basic</div>
+                                            <div class="subscribed">status</div>
+                                            <div class="description">Start off your business with</div>
+                                            <div class="features">
+                                                <ul>
+                                                    <li></li>
+                                                    <li></li>
+                                                    <li></li>
+                                                </ul>
+                                            </div>
+                                            <div class="price">
+                                                <span>&#x20b5;75<sub>/mo</sub></span>
+                                                <button type="button" class="btn btn-default">Buy Now</button>
+                                            </div>
+                                        </div>
+                                        <div class="plan pro">
+                                            <div class="title">MyshopOS Professional</div>
+                                            <div class="subscribed">status</div>
+                                            <div class="description">Start off your business with</div>
+                                            <div class="features">
+                                                <ul>
+                                                    <li></li>
+                                                    <li></li>
+                                                    <li></li>
+                                                </ul>
+                                            </div>
+                                            <div class="price">
+                                                <span>&#x20b5;99<sub>/mo</sub></span>
+                                                <button type="button" class="btn btn-default">Buy Now</button>
+                                            </div>
+                                        </div>
+                                        <div class="plan ultimate">
+                                            <div class="title">MyshopOS Ultimate</div>
+                                            <div class="subscribed">status</div>
+                                            <div class="description">Start off your business with</div>
+                                            <div class="features">                                                
+                                                <ul>
+                                                    <li></li>
+                                                    <li></li>
+                                                    <li></li>
+                                                </ul>
+                                            </div>
+                                            <div class="price">
+                                                <span>&#x20b5;150<sub>/mo</sub></span>
+                                                <button type="button" class="btn btn-default">Buy Now</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide sub">Vertical Slide 4</div>
+                                <div class="swiper-slide sub">Vertical Slide 5</div>
+                            </div>
+                            <div class="swiper-pagination sub"></div>
+                        </div>
+  
+                        <!-- <div class="side-panel">
+                            <a href="javascript:void(0);" id="btnCompanySetup" class="active"><i class="fa fa-building-o fa-2x"></i><small>Company Profile</small></a>
+                            <a href="javascript:void(0);" id="btnCompanyInfo"><i class="fa fa-info-circle fa-2x"></i><small>Billing & Subscriptions</small></a>
+                            <a href="javascript:void(0);" id="btnCompanyInfo"><i class="fa fa-info-circle fa-2x"></i><small>Payments Setup</small></a>
+                            <a href="javascript:void(0);" id="btnCompanyInfo"><i class="fa fa-info-circle fa-2x"></i><small>Company Info</small></a>
+                        </div> -->
+                        <!-- <h3 class="txt-center"><u>COMPANY PROFILE</u></h3> -->                         
+                    </div>                    
+                    <div class="swiper-slide main" id="preferences">
+                        <!-- <h3 class="txt-center"><u>PAYMENT TYPES</u></h3>
+                        <div class="row" style="margin-right: 20px;">
+                            <div class="cl-12 cm-12 cs-12 cx-12">
+                                <div id="paymentTypes-table" class="form-group"></div>
+                            </div>
+                        </div> -->
+                        <h3 class="txt-center"><u>TAX & DISCOUNTS</u></h3>
+                        <div class="row">
+                            <div class="cl-4 cm-4 cs-4 cx-6">
+                                <div class="row">
+                                    <div class="cl-9 cm-9 cs-7 cx-8">
+                                        <div class="form-group">
+                                            <input data-pref='{"module": "sales", "pref": "vat.rate"}' type="number" min="0" step=".01" id="vat" value="0" class="txt-u" required>
+                                            <label for="vat" class="floated-up-lbl">VAT/NHIL</label>
+                                            <sup class="required"><i class="fa fa-asterisk clr-danger"></i></sup>
+                                        </div>
+                                    </div>
+                                    <div class="cl-3 cm-3 cs-5 cx-4">
+                                        <div class="form-group">
+                                            <div class="select-container" style="display: grid; grid-template-columns: 1fr auto;">
+                                                <select data-pref='{"module": "sales", "pref": "vat.type"}' id="vatType" style="height: unset; background: #fff;">
+                                                    <option value="%">%</option>
+                                                    <option value="₵">₵</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cl-4 cm-4 cs-4 cx-6">
+                                <div class="row">
+                                    <div class="cl-9 cm-9 cs-7 cx-8">
+                                        <div class="form-group">
+                                            <input data-pref='{"module": "sales", "pref": "discount.rate"}' type="number" min="0" step=".01" id="discount" value="0" class="txt-u" required>
+                                            <label for="discount" class="floated-up-lbl">Discount</label>
+                                            <sup class="required"><i class="fa fa-asterisk clr-danger"></i></sup>
+                                        </div>
+                                    </div>
+                                    <div class="cl-3 cm-3 cs-5 cx-4">
+                                        <div class="form-group">
+                                            <div class="select-container" style="display: grid; grid-template-columns: 1fr auto;">
+                                                <select data-pref='{"module": "sales", "pref": "discount.type"}' id="discountType" style="height: unset; background: #fff;">
+                                                    <option value="%">%</option>
+                                                    <option value="₵">₵</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cl-4 cm-4 cs-4 cx-12">
+                                <div class="form-group" style=" padding-top: 15px;">
+                                    <label for="borderColor" class="floated-up-lbl" style="top: -5px;">Application Rule</label>
+                                    <div class='checkbox'>
+                                        <input data-pref='{"module": "sales", "pref": "vat.before"}' hidden type="checkbox" name="vat_discount_apply_rule" id="vat_discount_apply_rule" class="custom-checkbox" onchange="this.value = this.checked ? 1 : 0"><label for="vat_discount_apply_rule" style="cursor: pointer;">&nbsp;VAT before Discount</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <h3 class="txt-center">SALES RECEIPT</h3>
+                            <div>
+                                <h5 style="margin: 20px 0 0 10px;">Voucher & Sticker Generation</h5>
+                                <div class="row">                                
+                                    <div class="cl-4 cm-6 cs-6 cx-12">
+                                        <div class="form-group" style="display: grid; grid-template-columns: auto auto auto; gap: 10px;">
+                                            <section>
+                                                <input data-pref='{"module": "receipt", "pref": "code.prefix"}' type="text" id="prefix" placeholder="Ex: MSOS">
+                                                <label for="prefix" class="floated-up-lbl">Voucher Code</label>
+                                            </section>
+                                            <section>
+                                                <input disabled type="text" id="voucherDate">
+                                                <label for="voucherDate" class="floated-up-lbl" style="top: -5px;">Date</label>
+                                            </section>
+                                            <section>
+                                                <input disabled type="text" id="suffix" placeholder="Ex: 1, 2, 3">
+                                                <label for="suffix" class="floated-up-lbl" style="top: -5px;">Serial Number</label>
+                                            </section>                                            
+                                        </div>
+                                    </div>
+                                    <div class="cl-4 cm-6 cs-6 cx-12">
+                                        <div class="form-group" style="padding-top: 15px; display: grid; grid-template-columns: repeat(3, auto); align-items: center; justify-content: space-between;">
+                                            <section>
+                                                <label for="borderColor" class="floated-up-lbl" style="top: -5px;">Sticker Visibilty</label>
+                                                <div class='checkbox'>
+                                                    <input data-pref='{"module": "receipt", "pref": "sticker.visibility"}' hidden type="checkbox" name="stickerVisibility" id="stickerVisibility" class="custom-checkbox" onchange="this.value = this.checked ? 1 : 0"><label for="stickerVisibility" style="cursor: pointer;">&nbsp;Show</label>
+                                                </div>
+                                            </section>
+                                            <section style="display: flex;">
+                                                <label for="stickerType" class="floated-up-lbl" style="top: -5px;">Sticker Type</label>
+                                                <div class="radiobox">
+                                                    <input data-pref='{"module": "receipt", "pref": "sticker.type"}' type="radio" name="stickerType" id="barcode" class="custom-checkbox" value="bar"><label for="barcode" style="cursor: pointer;">&nbsp;Bar</label>
+                                                </div>
+                                                <div class="radiobox">
+                                                    <input data-pref='{"module": "receipt", "pref": "sticker.type"}' type="radio" name="stickerType" id="qrcode" class="custom-checkbox" value="qr"><label for="qrcode" style="cursor: pointer;">&nbsp;QR</label>
+                                                </div>
+                                            </section>
+                                            <section style="display: flex;">
+                                                <label for="stickerPosition" class="floated-up-lbl" style="top: -5px;">Sticker Position</label>
+                                                <div class="radiobox">
+                                                    <input data-pref='{"module": "receipt", "pref": "sticker.position"}' type="radio" name="stickerPosition" id="top" class="custom-checkbox" value="top"><label for="top" style="cursor: pointer;">&nbsp;Top</label>
+                                                </div>
+                                                <div class="radiobox">
+                                                    <input data-pref='{"module": "receipt", "pref": "sticker.position"}' type="radio" name="stickerPosition" id="bottom" class="custom-checkbox" value="bottom"><label for="bottom" style="cursor: pointer;">&nbsp;Bottom</label>
+                                                </div>
+                                            </section>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <h5 style="margin: 20px 0 0 10px;">Border & Background</h5>
+                                <div class="row">                                
+                                    <div class="cl-3 cm-2 cs-2 cx-8">
+                                        <div class="form-group">
+                                            <div class="select-container">
+                                                <select data-pref='{"module": "receipt", "pref": "border.style"}' id="borderStyle" style="height: unset; background: #fff;">
+                                                    <option value="Solid">Solid</option>
+                                                    <option value="Dotted">Dotted</option>
+                                                    <option value="Dashed">Dashed</option>
+                                                </select>
+                                                <label for="borderStyle" class="floated-up-lbl">Style</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="cl-2 cm-2 cs-2 cx-4">
+                                        <div class="form-group" style="display: flex;">
+                                            <input data-pref='{"module": "receipt", "pref": "border.depth"}' type="number" min="1" step=".1" id="borderDepth" style="appearance: textfield;">
+                                            <label for="borderDepth" class="floated-up-lbl">Depth</label>
+                                            <small style="background: #eee; padding: 10px 5px;">px</small>
+                                        </div>
+                                    </div>
+                                    <div class="cl-2 cm-4 cs-4 cx-6">
+                                        <div class="form-group" style=" padding-top: 15px; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; align-items: center; justify-content: space-between;">
+                                            <label for="borderColor" class="floated-up-lbl" style="top: -5px;">Border Color</label>
+                                            <div class="radiobox">
+                                                <input data-pref='{"module": "receipt", "pref": "border.color"}' type="radio" name="borderColor" id="borderNone" class="custom-checkbox" value="#fff"><label for="borderNone" style="cursor: pointer;">&nbsp;None</label>
+                                            </div>
+                                            <div class="radiobox">
+                                                <input data-pref='{"module": "receipt", "pref": "border.color"}' type="radio" name="borderColor" id="borderBlack" class="custom-checkbox" value="#000"><label for="borderBlack" style="cursor: pointer;">&nbsp;Black</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="cl-2 cm-4 cs-4 cx-6">
+                                        <div class="form-group" style="padding-top: 15px; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; align-items: center; justify-content: space-between;">
+                                            <label for="backgroundColor" class="floated-up-lbl" style="top: -5px;">Background Color</label>
+                                            <div class="radiobox">
+                                                <input data-pref='{"module": "receipt", "pref": "background.color"}' type="radio" name="backgroundColor" id="backgroundNone" class="custom-checkbox" value="#fff"><label for="backgroundNone" style="cursor: pointer;">&nbsp;None</label>
+                                            </div>
+                                            <div class="radiobox">
+                                                <input data-pref='{"module": "receipt", "pref": "background.color"}' type="radio" name="backgroundColor" id="backgroundBlack" class="custom-checkbox" value="#000"><label for="backgroundBlack" style="cursor: pointer;">&nbsp;Black</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h5 style="margin: 20px 0 0 10px;">Fonts</h5>
+                                <div class="row"> 
+                                    <div class="cl-2 cm-2 cs-2 cx-3">
+                                        <div class="form-group" style="display: flex;">
+                                            <input data-pref='{"module": "receipt", "pref": "font.size"}' type="number" min="1" step=".1" id="fontSize" style="appearance: textfield;">
+                                            <label for="fontSize" class="floated-up-lbl">Size</label>
+                                            <small style="background: #eee; padding: 10px 5px;">px</small>
+                                        </div>
+                                    </div>
+                                    <div class="cl-3 cm-6 cs-6 cx-5">
+                                        <div class="form-group" style="margin: 20px 20px 20px 0;">
+                                            <div class="select-container">
+                                                <select data-pref='{"module": "receipt", "pref": "font.family"}' id="fontFamily" style="height: unset; background: #fff;">
+                                                    <option value="">---select ---</option>
+                                                </select>
+                                                <label for="fontFamily" class="floated-up-lbl">Family</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="cl-3 cm-4 cs-4 cx-4">
+                                        <div class="form-group">
+                                            <h3 style="margin-top: 20px;" id="fontPreview">Hi, There?</h3>
+                                            <label class="floated-up-lbl" style="top: -5px;">Preview</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h5 style="margin: 20px 0 0 10px;">Footer Text</h5>
+                                <div class="form-group">
+                                    <div data-pref='{"module": "receipt", "pref": "footer.bottom"}' id="custom_receipt_footer_text"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="txt-center"><u>DATABASE</u></h3>
+                        <div class="row">
+                            <div class="cl-2 cm-2 cs-3 cx-6">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-teal" id="db_backup"><i class="fa fa-cloud-upload"></i> Backup</button>
+                                </div>
+                            </div>
+                            <div class="cl-2 cm-2 cs-3 cx-6">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-warning" id="db_restore"><i class="fa fa-cloud-download"></i> Restore</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide main" id="about">
+                        <h2 class="txt-center"><u>ABOUT APP</u></h2>
+                        <div class="row center-block">
+                            <div class="form-group">
+                                <p style="margin-top: 0;">
+                                    <small><b class="clr-primary"><u>W</u>ho We Are</b></small>
+                                    <section style="margin-top: 5px;">
+                                        MyshopOS which denotes <b>Myshop Operating Solutions</b> is a start-up company registered under the <samp>Business Names Act, 1964(No. 151) as <b>BN959152020</b></samp>
+                                        to provide innovative and digital solutions for automation of business activities.
+                                    </section>
+                                </p>
+                                <p>
+                                    <small><b class="clr-primary"><u>O</u>ur Mission</b></small>
+                                    <section style="margin-top: 5px;">
+                                        We're not just a registered company but pride ourselves with a mission to enhance business growth of our customers with creative design, development and to 
+                                        deliver market-defining high quality solutions that create value and reliable competitive advantage to customers around the globe.
+                                    </section>
+                                </p>
+                                <p>
+                                    <small><b class="clr-primary"><u>C</u>herished Clients</b></small>
+                                    <section style="margin-top: 5px;">
+                                       Join hundreds of satisfied customers who have been satisfied with our products and services.
+                                       <!-- <div class="swiper" id="clienteleSwiper">
+                                           <div class="swiper-wrapper">
+                                               <div class="swiper-slide">
+                                                   Slide 11
+                                               </div>
+                                               <div class="swiper-slide">
+                                                    Slide 22
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    Slide 33
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    Slide 44
+                                                </div>
+                                           </div>
+                                           <div class="swiper-pagination"></div>
+                                       </div> -->
+                                    </section>
+                                </p>
+                                <hr style="border: dashed 2px #eee;" />
+                                <p style="margin: 0;">
+                                    <small><b class="clr-primary"><u>L</u>icense Info</b></small>
+                                    <section style="margin-top: 5px;">
+                                        <table>
+                                            <tbody>
+                                                <tr style="display: flex; justify-content: space-between;">
+                                                    <td>Licensor: </td>
+                                                    <td>Myshop Operating Solutions</td>
+                                                </tr>
+                                                <tr style="display: flex; justify-content: space-between;">
+                                                    <td>Licensee: </td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr style="display: flex; justify-content: space-between;">
+                                                    <td>Next Renewal: </td>
+                                                    <td>June 03, 2022</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" class="txt-center clr-danger">*** Please note that you will be prompted of license renewal twenty-eight(28) days prior to expiry ***</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </section>
+                                </p>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                <!-- If we need pagination -->
+                <div class="swiper-pagination main"></div>
+            </div>
+             
+        </div>
+    </main>
+
+    <script src="../assets/js/jquery-3.3.1.min.js"></script>
+    <script src="../assets/plugins/alertify/alertify.min.js"></script>
+    <script src="../assets/plugins/notify.js"></script>   
+
+    <script src="../assets/plugins/tabulator-master/dist/xlsx.full.min.js"></script>
+    <script src="../assets/plugins/tabulator-master/dist/jspdf.min-1.3.5.js"></script>
+    <script src="../assets/plugins/tabulator-master/dist/jspdf.plugin.autotable-3.0.5.js"></script>
+    
+    <script src="../assets/plugins/uppy/uppy.min.js"></script>
+
+    <script src="../assets/plugins/loadash-4.15.0.js"></script>
+    <script src="../assets/plugins/he.js"></script>
+    <script src="../assets/plugins/quill/dist/quill.min.js"></script>
+
+    <script type="module" src="../assets/js/event.js"></script>
+    <script defer type="module" src="evt.js"></script>
+</body>
+</html>

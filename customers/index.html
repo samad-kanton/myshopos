@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MyShop OS | Customers</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/img/cart.bmp">
+    <link rel="stylesheet" href="../assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/plugins/alertify/css/themes/default.css">
+    <link rel="stylesheet" href="../assets/plugins/alertify/css/alertify.min.css">
+    <link rel="stylesheet" href="../assets/styles/Samad_Responsive_Layout.css">
+    <link rel="stylesheet" href="../assets/styles/style.css">
+
+    
+
+    <style >
+        main{ background-color: #fff; }
+        main .left-sidebar{ width: unset; border: none; }
+        main .right-sidebar{ width: auto; margin: 0; padding: 0; background-color: rgb(245, 245, 245); }
+
+        .modal#stock_master .wrapper{ width: 70vw; margin: 2em 0; }
+        .btn_remove_row{ position: absolute; top: 0; right: -10px; padding: 2px 5px; font-size: 25px; box-shadow: none; }
+
+        .ajax-page#userRights{ top: 100%; overflow-y: hidden; }
+        .ajax-page#userRights .title{ display: flex; justify-content: space-between; align-items: center; padding: 0 20px }
+        .ajax-page#userRights .title .close{ position: unset; text-align: right; }
+        .ajax-page#userRights.open{ top: 20px; }
+        /* .ajax-page#userRights.open::before{ content: ''; position: absolute; top: 0; right: 50px; border-top: solid 10px wheat; border-right: solid 10px transparent; border-bottom: solid 10px transparent; border-left: solid 10px transparent; } */
+        .ajax-page#userRights .content{  } 
+
+        footer{ margin: 0; width: 100%; }
+
+        @media screen and (min-width: 950px){ #modal_printStock .wrapper{ width: 400px; } #modal_reconcilliation .wrapper{ width: 900px; } }
+        @media screen and (min-width: 680px){ #modal_printStock .wrapper{ width: 500px; } #modal_reconcilliation .wrapper{ width: 800px; } }
+        /* @media screen and (max-width: 1280px){ #modal_printStock .wrapper{ width: 400px; } #modal_reconcilliation .wrapper{ width: 900px; } }
+        @media screen and (max-width: 950px){ }*/
+        @media screen and (max-width: 767px){ #modal_printStock .wrapper{ width: 90vw; } #modal_reconcilliation .wrapper{ width: 110vw; } }
+        @media screen and (max-width: 500px){ .modal#stock_master .wrapper{ width: 90vw; margin: 2em 0; } .quick_links{ flex-flow: column; } #modal_printStock .wrapper{ width: 90vw; } #modal_reconcilliation .wrapper{ width: auto; } } 
+    </style>
+
+    <script src="../assets/js/jquery-3.3.1.min.js"></script>
+    <script src="../assets/plugins/alertify/alertify.min.js"></script>
+    <script>
+        // let staffBioData;
+        // pop('./crud.php?pop').then(resp => console.log(resp.data));
+        // console.log(staffBioData)
+        // $(document).on('click', 'header section:nth-child(2) a', function(e){    
+            // let update_emp_id = activeUser.id, routeTo = $(e.target).closest('a')[0].href.split('/').splice(-2)[0], _authorized;
+            // // console.log(routeTo, $(e.target).closest('a')[0].classList.contains('active'));
+            // staffBioData.forEach((entry, i) => _authorized = update_emp_id == entry.emp_id
+            //     && 
+            //     JSON.parse(entry.rights).hasOwnProperty(routeTo)
+            //     &&
+            //     JSON.parse(entry.rights)[routeTo]
+            // );
+            // console.log(_authorized);
+            // if(_authorized == 'true' || $(e.target).closest('a')[0].classList.contains('active')){
+            //     return true;
+            // }
+            // alertify.alert("Access Denied!!!", "<div class='clr-danger'>You do not have sufficient rights to access this page.</div><br/>Please contact your System Administrator.");
+            // return false;
+        // });
+
+        // $(document).on('click', '.ajax-page#manageUserRights .title a.close', e => tableEmployees.getSelectedData().length > 0 && tableEmployees.deselectRow(tableEmployees.getSelectedData()[0].emp_id));
+
+    </script>
+</head>
+<body>
+    
+    <header>
+        <section>
+            <img class="app-icon" src="../assets/img/cart.bmp" alt="App Icon">
+            <a href="" class="navbrand">MyShop OS</a>
+        </section>
+        <section>
+            <section>
+                <img src="../assets/img/avatar.jpg" alt="Avatar">
+                <small></small>
+            </section>
+            <!-- <section> -->
+                <a href="../pos"><i class="fa fa-shopping-cart"></i> POS</a>
+                    <a href="../stock"><i class="fa fa-shopping-basket"></i> STOCK</a>
+                    <a href="javascript:void(0);" class="active"><i class="fa fa-user"></i> STAFF</a>
+                    <a href="../report"><i class="fa fa-bar-chart"></i> REPORT</a>
+                    <a href="../config"><i class="fa fa-cog"></i> CONFIG</a>
+                    <a href="javascript:void(0);" id="btnLogout"><i class="fa fa-power-off"></i></a>
+            <!-- </section> -->
+            <!-- <section>
+
+            </section> -->
+        </section>
+        <a href="javascript:void(0);" class="hamburger"><span></span><span></span><span></span></a>
+    </header>
+
+    <main style="padding-top: 1.5em;">
+        <div class="right-sidebar" style="align-items: start;">
+            <!-- <div id="example-table"></div> -->
+            <div class="container bg-white">
+                <!-- <h2 class="txt-center"><u>INVENTORY</u></h2> -->
+                <div class="row" style="padding: 0 20px;">
+                    <div class="cl-8 cm-7 cs-7 cx-12" style="display: flex; align-items: center;">
+                        <button type="button" class="btn btn-primary my-tabulator-buttons" id="createStock" onclick="" style="height: 40px;"><span style="display: flex; align-items: center;"><i class="fa fa-plus"></i></span></button>&nbsp;&nbsp;
+                        <button type="button" class="btn btn-f05 my-tabulator-buttons" id="printStock" style="height: 40px;"><span style="display: flex; align-items: center;"><i class="fa fa-print"></i></span></button>&nbsp;&nbsp;
+                        <button type="button" class="btn btn-default my-tabulator-buttons" id="exportStock_excel" style="height: 40px; display: flex; align-items: center;"><span style="display: flex; align-items: center;"><img src="../assets/icons/icon-xcel.png" alt="Export To Excel" width="20" height="15"/></span></button>&nbsp;&nbsp;
+                        <!-- <button type="button" class="btn btn-wheat my-tabulator-buttons" id="exportStock_pdf" style="height: 40px; display: flex; align-items: center;"><span style="display: flex; align-items: center;"><img src="../assets/icons/icon-pdf.png" alt="Export To PDF" width="20" height="15"/></span></button> -->
+                    </div>
+                    <div class="cl-4 cm-5 cs-5 cx-12">
+                        <div class="form-group search-pane" style="margin: 10px 0 0 0;">
+                            <input type="search" id="search_stock" placeholder="Search or filter employee...">
+                            <i class="fa fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" id="employee-table" style="padding-bottom: 0;"></div>
+            </div>
+            
+            <div class="ajax-page" id ="manageUserRights">
+                <div class="title">
+                    <!-- <a href="javascript:void(0);" id="view_allCategories" class="color-inverse">User Rights & Access Controls</a> -->
+                    <h2 style="margin-left: 20px;"></h2>
+                    <a href="javascript:void(0);" class="close no-udl" onclick="$(event.target).closest('.ajax-page').removeClass('open'); $('#all-categories').removeClass('open');"><i class="clr-danger">&times;</i></a>
+                </div>
+                <div class="content">
+                    <div class="modules" style="display: grid; align-items: center;">
+                        <p style="margin: 0 20px;"><u>User Rights & Access Controls</u></p>
+                        <div class="form-group">
+                            <div class='checkbox'>
+                                <input hidden type='checkbox' name='staff' id='staff' class='custom-checkbox'>
+                                <label for='staff' style='cursor: pointer;'>&nbsp;Manage Staff</label>
+                            </div>
+                            <small style="margin: 0 40px; font-weight: bold;">Create, Update and Delete Staff Info</small>
+                        </div>
+                        <div class="form-group">
+                            <div class='checkbox'>
+                                <input hidden type='checkbox' name='stock' id='stock' class='custom-checkbox'>
+                                <label for='stock' style='cursor: pointer;'>&nbsp;Stock Master</label>
+                            </div>
+                            <small style="margin: 0 40px; font-weight: bold;">Create, Update and Delete Stock Info</small>
+                        </div>
+                        <div class="form-group">
+                            <div class='checkbox'>
+                                <input hidden type='checkbox' name='pos' id='pos' class='custom-checkbox'>
+                                <label for='pos' style='cursor: pointer;'>&nbsp;Sales Chest</label>
+                            </div>
+                            <small style="margin: 0 40px; font-weight: bold;">Process Sales & Invoices</small>
+                        </div>
+                        <div class="form-group">
+                            <div class='checkbox'>
+                                <input hidden type='checkbox' name='report' id='report' class='custom-checkbox'>
+                                <label for='report' style='cursor: pointer;'>&nbsp;Report Center</label>
+                            </div>
+                            <small style="margin: 0 40px; font-weight: bold;">View & Generate Transaction Reports</small>
+                        </div>
+                        <div class="form-group">
+                            <div class='checkbox'>
+                                <input hidden type='checkbox' name='config' id='config' class='custom-checkbox'>
+                                <label for='config' style='cursor: pointer;'>&nbsp;System</label>
+                            </div>
+                            <small style="margin: 0 40px; font-weight: bold;">Configuration Settings</small>
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="txt-center" style="text-shadow: 0px 1px 1px #eee; padding: 10px;">
+        <div id="wrapper">
+            <small><sup>&copy;</sup>2015 - <span class="curAppDate"></span>. All Rights Reserved</small>
+            <small>Powered by <a href="https://www.myshopos.com" class="no-udl"><i class="fa fa-globe"></i> MyShop OS</a></small>
+        </div>
+    </footer>    
+
+    <script src="../assets/plugins/tabulator-master/dist/js/tabulator.min.js"></script>
+    <script src="../assets/plugins/tabulator-master/dist/xlsx.full.min.js"></script>
+    <script src="../assets/plugins/tabulator-master/dist/jspdf.min-1.3.5.js"></script>
+    <script src="../assets/plugins/tabulator-master/dist/jspdf.plugin.autotable-3.0.5.js"></script>
+    
+    <script src="../assets/js/event.js"></script>
+    <script src="evt.js"></script>
+</body>
+</html>

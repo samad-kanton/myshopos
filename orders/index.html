@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MyShop - Orders</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/img/cart.bmp">
+    <link rel="stylesheet" href="../../assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../assets/plugins/alertify/css/themes/default.css">
+    <link rel="stylesheet" href="../../assets/plugins/alertify/css/alertify.min.css">
+    <link rel="stylesheet" href="../../assets/styles/Samad_Responsive_Layout.css">
+    <link rel="stylesheet" href="../../assets/styles/style.css">
+    <style>
+        .btn_remove_row{ position: absolute; top: 0; right: 0px; padding: 2px 5px; font-size: 25px; box-shadow: none; }
+        #panel-invoice-list span:last-child .fa{ transition: .38s ease; }
+        #panel-invoice-list span:last-child .fa.open{ transform: rotate(180deg); }
+        #panel-invoice-list button.btn-info{ border-radius: 0; background: aliceblue; box-shadow: none; text-align: unset; display: flex; grid-template-columns: auto auto; grid-gap: 20px; justify-content: space-between; }
+        @media screen and (min-width: 501px) and (max-width: 767px) { .row_item{ border: solid 1px #dddddd; } .row_item h1{ margin: 0; } }
+        @media screen and (min-width: 0px) and (max-width: 500px) { .row_item{ border: solid 1px #dddddd; } .row_item h1{ margin: 0; } main .container .row.last-row .form-group{ margin-left: 0; margin-right: 0; } #panel-invoice-list button{ grid-template-columns: auto; } }
+    </style>
+</head>
+<body>
+    
+    <header>
+        <a href="" class="navbrand">MyShop</a>
+        <img class="app-icon" src="../../assets/img/cart.bmp" alt="App Icon">
+        <section>
+            <a href="javascript:void(0);" class="user-profile"><span></span>&nbsp;Account&nbsp;<i class="fa fa-chevron-down"></i></a>
+            <div>
+                <a href="javascript:void(0);" onclick="changeMyPassword2.show();">Change Photo</a>
+                <a href="javascript:void(0);" onclick="changeMyPassword.show(); $('#global_security_ans').focus();">Change Password</a>
+                 <a href="javascript:void(0);" onclick="manageDaysWork('close');">Close Days Work</a>
+                <a href="../../logout.php">Logout</a>
+            </div>
+        </section>
+        <a href="javascript:void(0);" class="hamburger"><span></span><span></span><span></span></a>
+    </header>
+
+    <main>
+        <div class="left-sidebar">
+            <nav>
+                <a href="javascript:void(0);" class="user-profile"><span></span> &nbsp;&nbsp; <section>Welcome </section></a>
+                <a href="../dashboard/" title="View Modules & Stats"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
+                <a href="../customer/" title="Bio Data & User Accounts"><i class="fa fa-users"></i><span>Employee</span></a>
+                <a href="../customer/" title="Customer Profile"><i class="fa fa-handshake-o"></i><span>Customer</span></a>
+                <a href="../supplier/" title="Supplier Info"><i class="fa fa-truck"></i><span>Supplier</span></a>
+                <a href="javascript:void(0);" class="active" title="Order & Invoice Details"><i class="fa fa-exchange"></i><span>Orders</span></a>
+                <a href="../inventory/" title="Stock Master"><i class="fa fa-list-ol"></i><span>Inventory</span></a>
+                <a href="../sales/" title="Point of Sale"><i class="fa fa-shopping-cart"></i><span>Sales Chest</span></a>
+                <a href="../bookkeeping/" title="Financial Expenditure & Receipts"><i class="fa fa-folder-open-o"></i><span>BookKeeping</span></a>
+                <a href="../report/" title="Generate Report"><i class="fa fa-bar-chart"></i><span>Report</span></a>
+                <a href="../setup/" title="System Setup" id=""><i class="fa fa-wrench"></i> <span> Configuration</span></a>
+                <a href="../developer/" title="System Setup" id=""><i class="fa fa-desktop"></i> <span> About System</span></a>
+                <a href="../../logout.php" title="Close Session" id="myAcoount"><i class="fa fa-power-off"></i> <span> Logout</span></a>
+            </nav>
+        </div>
+        <div class="right-sidebar">
+            <div class="container">                
+                <h2 class="txt-center"><u>PURCHASE ORDER</u></h2>
+                <small class="txt-center clr-info">Supplier <i class="fa fa-arrow-right clr-inverse"></i> Warehouse</small>
+                <form role="form" id="frm-gen-invoice" autocomplete="off">
+                    <!-- <div class="row center-block">
+                        <div class="cl-10 cm-12 cs-12 cx-12">
+                            <div class="row">
+                                <div class="cl-4 cm-5 cs-5 cx-12">
+                                    <div class="form-group">
+                                        <input type="text" name="invoice" id="invoice" list="invoice_list" class="txt-u" required>
+                                        <label for="invoice" class="floated-up-lbl">Invoice #</label>
+                                        <sup class="required"><i class="fa fa-asterisk clr-danger"></i></sup>
+                                        <datalist id="invoice_list"></datalist>
+                                    </div>
+                                </div>
+                                <div class="cl-8 cm-7 cs-7 cx-12">
+                                    <div class="form-group">
+                                        <div class="select-container">
+                                            <select name="sup_id" id="sup_id" class="txt-u" required></select>
+                                        </div>
+                                        <label for="supplier" class="floated-up-lbl" style="top: -5px;">Supplier</label>
+                                        <sup class="required"><i class="fa fa-asterisk clr-danger"></i></sup>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div id="form-collection"></div>
+                    <div class="row center-block last-row">
+                        <div class="cl-10 cm-11 cs-12 cx-12">
+                            <div class="row">
+                                <div class="cl-6 cm-6 cs-7 cx-9">
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-lg btn-default" onclick="clearInp('#frm-gen-invoice input');">Clear</button>&nbsp;&nbsp;
+                                        <button type="submit" class="btn btn-lg btn-primary">Save</button>
+                                    </div>
+                                </div>
+                                <div class="cl-6 cm-6 cs-5 cx-3">
+                                    <div class="form-group">
+                                        <div class="push-right">
+                                            <button disabled type="button" class="btn btn-lg btn-danger" id="btn_remove_bottom_row" title="Remove Row"><i class="fa fa-minus"></i></button>&nbsp;
+                                            <button type="button" class="btn btn-lg btn-info" id="btn_add_row" title="Add Row"><i class="fa fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row center-block mt-5">
+                    <div class="cl-10 cm-11 cs-12 cx-12">
+                        <div class="row">
+                            <div class="cl-4 cm-5 cs-8 cx-8">
+                                <div class="form-group search-pane">
+                                    <div class="row" style="align-items: center;">
+                                        <div class="cl-5 cm-5 cs-5 cx-5">
+                                            <div class="checkbox">
+                                                <input hidden type="checkbox" name="showAll" id="showAll" class="custom-checkbox"><label for="showAll">&nbsp; <span class="hide-xs">Show</span> All</label>
+                                            </div>
+                                        </div>
+                                        <div class="cl-2 cm-2 cs-2 cx-2">|</div>
+                                        <div class="cl-5 cm-5 cs-5 cx-5" style="position: relative;">
+                                            <div style="display: grid; grid-template-columns: auto auto; align-items: center;">
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                                <div class="select-container">
+                                                    <select id="perPage" style="padding-left: 20px;" onchange="pop_rec('pop_invoice_table.php', {perPage:this.value, filter_column:$('#filter_column').val(), search_term:$('#search_term').val()}, '#pop_invoice_table'); this.value != 'all' ? $('#showAll').prop('checked', false) : $('#showAll').prop('checked', true);">
+                                                        <option value="all">All</option>
+                                                        <option selected value="100">100</option>
+                                                        <option value="250">250</option>
+                                                        <option value="500">500</option>
+                                                        <option value="1000">1000</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cl-3 cm-3 cs-4 cx-4">
+                                <div class="form-group search-pane">
+                                    <div style="display: grid; grid-template-columns: auto auto; align-items: center;">
+                                        <i class="fa fa-filter" aria-hidden="true"></i>
+                                        <div class="select-container">
+                                            <select id="filter_column" onchange="pop_rec('pop_invoice_table.php', {perPage: $('#perPage').val(), filter_column:this.value, search_term:$('#search_term').val()}, '#pop_invoice_table'); $('#search_term').focus()" style="padding-left: 20px;">
+                                                <option selected value="all">All</option>
+                                                <option value="invoice">Invoice</option>
+                                                <option value="supplier">Supplier</option>
+                                                <option value="item">Item</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cl-5 cm-4 cs-12 cx-12">
+                                <div class="form-group search-pane">
+                                    <input type="search" id="search_term" placeholder="find invoice..." oninput="pop_rec('pop_invoice_table.php', {perPage: $('#perPage').val(), filter_column:$('#filter_column').val(), search_term:$(this).val()}, '#pop_invoice_table');">
+                                    <i class="fa fa-search"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row center-block">
+                    <div class="cl-10 cm-12 cs-12 cx-12">
+                        <div class="row" id="pop_invoice_table"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal" id="modal_update_product">
+                <div class="wrapper">
+                    <button type="button" class="btn btn-danger btn-sm border-circle close" onclick="$(this).closest('div.modal').removeClass('open');">&times</button>
+                    <div class="heading bg-default">
+                        Update product
+                    </div>
+                    <div class="content">
+                        <form role="form" id="frm-update-product" autocomplete="off">
+                            <input hidden type="number" min="1" name="edit_product_id" id="edit_product_id">
+                            <div class="row">
+                                <div class="cl-12 cm-12 cs-12 cx-12">
+                                    <div class="form-group">
+                                        <input type="text" name="edit_item" id="edit_item" required>
+                                        <label for="edit_item" class="floated-up-lbl">Item Name</label>
+                                        <sup class="required"><i class="fa fa-asterisk clr-danger"></i></sup>
+                                    </div>
+                                </div>
+                                <div class="cl-8 cm-8 cs-12 cx-12">
+                                    <div class="form-group">
+                                        <div class="select-container">
+                                            <select disabled name="edit_sup_id" id="edit_sup_id" class="txt-u" required></select>
+                                        </div>
+                                        <label for="edit_supplier" class="floated-up-lbl" style="top: -5px;">Supplier</label>
+                                        <sup class="required"><i class="fa fa-asterisk clr-danger"></i></sup>
+                                    </div>
+                                </div>
+                                <div class="cl-4 cm-4 cs-12 cx-12">
+                                    <div class="form-group">
+                                        <input disabled type="text" name="edit_brand" id="edit_brand" class="txt-u">
+                                        <label for="edit_brand" class="floated-up-lbl" style="top: -5px;">Brand</label>
+                                    </div>
+                                </div>
+                                <div class="cl-3 cm-3 cs-6 cx-6">
+                                    <div class="form-group">
+                                        <input type="number" min="1" step="1" name="edit_qty" id="edit_qty" required>
+                                        <label for="edit_qty" class="floated-up-lbl">Quantity</label>
+                                        <sup class="required"><i class="fa fa-asterisk clr-danger"></i></sup>
+                                    </div>
+                                </div>
+                                <div class="cl-3 cm-3 cs-6 cx-6">
+                                    <div class="form-group">
+                                        <input type="number" min=".01" step=".01" name="edit_cp" id="edit_cp" required>
+                                        <label for="edit_cp" class="floated-up-lbl">Unit Cost</label>
+                                        <sup class="required"><i class="fa fa-asterisk clr-danger"></i></sup>
+                                    </div>
+                                </div>
+                                <div class="cl-3 cm-3 cs-6 cx-6">
+                                    <div class="form-group">
+                                        <input type="number" min=".01" step=".01" name="edit_sp" id="edit_sp" required>
+                                        <label for="edit_sp" class="floated-up-lbl">Unit Price</label>
+                                        <sup class="required"><i class="fa fa-asterisk clr-danger"></i></sup>
+                                    </div>
+                                </div>
+                                <div class="cl-3 cm-3 cs-6 cx-6">
+                                    <div class="form-group">
+                                        <input type="number" min="1" step="1" name="edit_restock" id="edit_restock" required>
+                                        <label for="edit_restock" class="floated-up-lbl">Restock Level</label>
+                                        <sup class="required"><i class="fa fa-asterisk clr-danger"></i></sup>
+                                    </div>
+                                </div>
+                                <div class="cl-12 cm-12 cs-12 cx-12">
+                                    <div class="form-group btn-group center-block">
+                                        <button type="button" class="btn btn-lg btn-default" onclick="clearInp('#frm-update-product input');"><i class="fa fa-times"></i> Clear</button>&nbsp;&nbsp;
+                                        <button type="submit" class="btn btn-lg btn-success"><i class="fa fa-pencil"></i> Update</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="txt-center" style="text-shadow: 0px 1px 1px #eee; padding: 10px;">
+        <small>
+            <p>&copy; MyShop 2019.</p>Powered by <a href="https://www.softitgh.com" class="no-udl clr-purple"><i class="fa fa-globe"></i> Soft IT Gh</a>
+        </small>
+    </footer>
+
+    <script src="../../assets/js/jquery-3.3.1.min.js"></script>
+    <script src="../../assets/plugins/alertify/alertify.min.js"></script>
+    <script src="../../assets/js/event.js"></script>
+    <script src="./evt.js"></script>
+</body>
+</html>

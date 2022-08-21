@@ -1,0 +1,28 @@
+main{ background-color: #fff; }
+
+main .left-sidebar{ width: unset; border: none; }
+main .right-sidebar{ width: auto; margin: 0; padding: 0; }
+
+.box { max-height: 444px; box-shadow: 0px 1px 22px -12px #607D8B; background-color: #fff; padding: 10px; }
+
+.right-sidebar .container{ display: grid; gap: 20px; }
+
+#period{ display: grid; grid-template-columns: 170px 1fr auto; gap: 50px; margin: 10px; }
+#period > div{ display: flex; justify-content: center; position: relative; }
+#period span{ position: absolute; left: 0; writing-mode: vertical-lr; margin-right: 10px; font-size: 10px; }
+#period .swiper{ margin-left: 20px; overflow: none; }
+#period .swiper-slide{ padding: 10px; background: #fff; border: solid 2px dodgerblue; text-align: center; }
+.period-active::after{ content: '\2713'; position: absolute; top: 0; right: 0; padding: 1px 5px; font-size: 10px; background: dodgerblue; color: #fff; }
+
+.swiper#cards{ overflow: hidden; margin: 0 10px; box-shadow: 0px 1px 22px -12px #607D8B; }
+.swiper#cards .swiper-slide{ width: 90%; }
+
+
+@media screen and (max-width: 768px) {
+  #period{ display: grid; grid-template-columns: 200px 1fr auto; gap: 10px; }
+
+}
+
+@media screen and (max-width: 568px) {
+  #period{ display: grid; grid-template-columns: 130px auto auto; gap: 10px; }
+}

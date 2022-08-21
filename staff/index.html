@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="theme-color" content="#4285f4">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">  
+    
+    <title>MyShop OS | Staff</title>
+
+    <link rel="manifest" href="../manifest.webmanifest">
+
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/img/cart.bmp">
+    <link rel="stylesheet" href="../assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/plugins/alertify/css/themes/default.css">
+    <link rel="stylesheet" href="../assets/plugins/alertify/css/alertify.min.css">
+    <link rel="stylesheet" href="../assets/styles/Samad_Responsive_Layout.css">
+    <link rel="stylesheet" href="../assets/styles/style.css">
+
+    <style >
+        main{ background-color: #fff; }
+        main .left-sidebar{ width: unset; border: none; }
+        main .right-sidebar{ width: auto; margin: 0; padding: 0; background-color: rgb(245, 245, 245); }
+
+        .modal#stock_master .wrapper{ width: 70vw; margin: 2em 0; }
+        .btn_remove_row{ position: absolute; top: 0; right: -10px; padding: 2px 5px; font-size: 25px; box-shadow: none; }
+
+        .ajax-page#userRights{ top: 100%; overflow-y: hidden; }
+        .ajax-page#userRights .title{ display: flex; justify-content: space-between; align-items: center; padding: 0 20px }
+        .ajax-page#userRights .title .close{ position: unset; text-align: right; }
+        .ajax-page#userRights.open{ top: 20px; }
+        /* .ajax-page#userRights.open::before{ content: ''; position: absolute; top: 0; right: 50px; border-top: solid 10px wheat; border-right: solid 10px transparent; border-bottom: solid 10px transparent; border-left: solid 10px transparent; } */
+        /* .ajax-page#userRights .content{  }  */
+
+        footer{ margin: 0; width: 100%; }
+
+        @media screen and (min-width: 950px){ #modal_printStock .wrapper{ width: 400px; } #modal_reconcilliation .wrapper{ width: 900px; } }
+        @media screen and (min-width: 680px){ #modal_printStock .wrapper{ width: 500px; } #modal_reconcilliation .wrapper{ width: 800px; } }
+        /* @media screen and (max-width: 1280px){ #modal_printStock .wrapper{ width: 400px; } #modal_reconcilliation .wrapper{ width: 900px; } }
+        @media screen and (max-width: 950px){ }*/
+        @media screen and (max-width: 767px){ #modal_printStock .wrapper{ width: 90vw; } #modal_reconcilliation .wrapper{ width: 110vw; } }
+        @media screen and (max-width: 500px){ .modal#stock_master .wrapper{ width: 90vw; margin: 2em 0; } .quick_links{ flex-flow: column; } #modal_printStock .wrapper{ width: 90vw; } #modal_reconcilliation .wrapper{ width: auto; } } 
+    </style>
+
+    <script src="../assets/js/jquery-3.3.1.min.js"></script>
+    <script src="../assets/plugins/alertify/alertify.min.js"></script>
+</head>
+<body>
+    
+    <header>
+        <div class="navbrand">
+            <img class="app-icon" src="../assets/img/cart.bmp" alt="App Icon">
+            <a href="">
+                <b>MyShop OS</b>
+                <small>#1 Smart Billing App</small>
+            </a>
+        </div>
+        <div class="swiper" id="navMenuSwiper">
+            <div class="swiper-wrapper">
+                <a href="../dashboard" class="swiper-slide"><i class="fa fa-dashboard"></i> DASHBOARD</a>
+                <a href="../pos" class="swiper-slide"><i class="fa fa-shopping-cart"></i> POS</a>
+                <a href="../contacts" class="swiper-slide"><i class="fa fa-handshake-o"></i> CONTACTS</a>
+                <a href="../stock" class="swiper-slide"><i class="fa fa-shopping-basket"></i> STOCK</a>
+                <a href="javascript:void(0);" class="swiper-slide active"><i class="fa fa-user"></i> STAFF</a>
+                <a href="../finance" class="swiper-slide"><i class="fa fa-money"></i> FINANCE</a>
+                <a href="../report" class="swiper-slide"><i class="fa fa-bar-chart"></i> REPORT</a>
+                <a href="../config" class="swiper-slide"><i class="fa fa-cog"></i> CONFIG</a>
+            </div>
+        </div>
+        <div style="position: unset;">
+            <a href="javascript:void(0);" id="btnShowNotifs">
+                <i class="fa fa-bell-o"></i>
+                <small id="badge" style="position: absolute; top: 13px; left: calc(100% - 27px); border-radius: 50%; font-size: 13px; text-align: center;"></small>
+            </a> 
+        </div>
+        <div>
+            <a href="javascript:void(0);">
+                <img class="activeUser_avatar" src="../assets/img/avatar.jpg" alt="" width="30px" height="30px" />
+                <i class="fa fa-caret-up"></i>
+            </a>                      
+            <menu>
+                <section>
+                    <img  class="activeUser_avatar" src="../assets/img/avatar.jpg" alt="" width="80px" height="80px" />
+                    <small></small>
+                </section>
+                <section>
+                    <a href="javascript:void(0);" id="btnHelp"><i class="fa fa-info-circle fa-2x"></i><small>Help</small></a>
+                    <a href="javascript:void(0);" id="btnLogout"><i class="fa fa-power-off fa-2x"></i><small>Logout</small></a> 
+                </section>
+            </menu>
+        </div>
+    </header>
+
+    <main>
+        <div class="right-sidebar" style="display: unset;">
+            <!-- <div id="example-table"></div> -->
+            <div class="container bg-white">                
+                <div id="toolbar" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div id="links">
+                        <button type="button" class="btn btn-primary my-tabulator-buttons" id="createStaff" style="background: none; border: solid 1px dodgerblue; color: dodgerblue;"><i class="fa fa-plus"></i><br/>Create</button>
+                        <button type="button" id="btnExport_staff" class="btn btn-teal dropdown">
+                            <span><i class="fa fa-share-alt"></i><br/>Export</span>
+                            <div class="dropdown-menu">
+                                <a href="javascript:void(0);" class="no-udl clr-inverse" id="printStaff"><i class="fa fa-print"></i> Printer</a>
+                                <a href="javascript:void(0);" class="no-udl clr-success" id="exportStaff_excel"><i class="fa fa-file-excel-o"></i> Excel</a>
+                                <a href="javascript:void(0);" class="no-udl clr-danger" id="exportStaff_pdf"><i class="fa fa-file-pdf-o"></i> PDF</a>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="form-group search-pane float-xs">
+                        <input type="search" id="search_staff" placeholder="Search Staff...">
+                        <label for="search_staff" style="cursor: pointer;"><i class="fa fa-search clr-primary" style="width: 40px; height: 40px; display: flex; justify-content: center; align-items: center;"></i></label>
+                    </div>
+                </div> 
+
+                <div class="form-group" id="employee-table" style="padding-bottom: 0;"></div>
+            </div>
+            
+            <div class="ajax-page" id ="manageUserRights">
+                <div class="title">
+                    <!-- <a href="javascript:void(0);" id="view_allCategories" class="color-inverse">User Rights & Access Controls</a> -->
+                    <h2 style="margin-left: 10px;">Access Control Rights</h2>
+                    <a href="javascript:void(0);" class="close no-udl" onclick="$(event.target).closest('.ajax-page').removeClass('open'); $('#all-categories').removeClass('open');"><i class="clr-danger">&times;</i></a>
+                </div>
+                <div class="content" style="height: calc(100vh - 130px); overflow: auto;">
+                    <div class="modules" style="display: grid; align-items: center;">
+                        <!-- <p style="margin: 0 20px;"><u>User Rights & Access Controls</u></p> -->
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <input hidden type="checkbox" name="dashboard" id="dashboard" class="custom-checkbox">
+                                <label for="dashboard" style="cursor: pointer;">&nbsp;Dashboard</label>
+                            </div>
+                            <small style="margin: 0 30px; font-weight: bold;">View and Query Analytics</small>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <input hidden type="checkbox" name="staff" id="staff" class="custom-checkbox">
+                                <label for="staff" style="cursor: pointer;">&nbsp;Manage Staff</label>
+                            </div>
+                            <small style="margin: 0 30px; font-weight: bold;">Create, Update and Delete Staff Info</small>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <input hidden type="checkbox" name="contacts" id="contacts" class="custom-checkbox">
+                                <label for="contacts" style="cursor: pointer;">&nbsp;Vendors</label>
+                            </div>
+                            <small style="margin: 0 30px; font-weight: bold;">Manage purhases coupled with suppliers.</small>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <input hidden type="checkbox" name="stock" id="stock" class="custom-checkbox">
+                                <label for="stock" style="cursor: pointer;">&nbsp;Stock Master</label>
+                            </div>
+                            <small style="margin: 0 30px; font-weight: bold;">Create, Update and Delete Stock Info</small>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <input hidden type="checkbox" name="pos" id="pos" class="custom-checkbox">
+                                <label for="pos" style="cursor: pointer;">&nbsp;Sales Chest</label>
+                            </div>
+                            <small style="margin: 0 30px; font-weight: bold;">Process Sales & Invoices</small>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <input hidden type="checkbox" name="finances" id="finances" class="custom-checkbox">
+                                <label for="finances" style="cursor: pointer;">&nbsp;Finance</label>
+                            </div>
+                            <small style="margin: 0 30px; font-weight: bold;">Create & Manage Books of Accounts</small>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <input hidden type="checkbox" name="report" id="report" class="custom-checkbox">
+                                <label for="report" style="cursor: pointer;">&nbsp;Report Center</label>
+                            </div>
+                            <small style="margin: 0 30px; font-weight: bold;">View & Generate Transaction Reports</small>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <input hidden type="checkbox" name="config" id="config" class="custom-checkbox">
+                                <label for="config" style="cursor: pointer;">&nbsp;System</label>
+                            </div>
+                            <small style="margin: 0 30px; font-weight: bold;">Configuration Settings</small>
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="../assets/plugins/tabulator-master/dist/xlsx.full.min.js"></script>
+    <script src="../assets/plugins/tabulator-master/dist/jspdf.min-1.3.5.js"></script>
+    <script src="../assets/plugins/tabulator-master/dist/jspdf.plugin.autotable-3.0.5.js"></script>
+    
+    <script src="../assets/plugins/uppy/uppy.min.js"></script>  
+    
+    <script src="../assets/plugins/loadash-4.15.0.js"></script>
+    <script src="../assets/plugins/notify.js"></script>
+    
+    <script type="module" src="evt.js"></script>
+</body>
+</html>

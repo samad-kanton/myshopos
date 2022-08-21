@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <meta name="theme-color" content="#4285f4">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">   
+    
+    <title>MyShop OS | Sales Point</title>
+    
+    <link rel="manifest" href="../manifest.webmanifest">
+    <link rel="apple-touch-startup-image" href="./assets/icons/1024x1024.png">
+
+    <link rel="apple-touch-icon" sizes="64x64" href="/assets/icons/64x64.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="/assets/icons/xxxhdpi.png">
+    <link rel="apple-touch-icon" sizes="256x256" href="/assets/icons/256x256.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="/assets/icons/512x512.png">
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/img/cart.bmp">
+
+    <link rel="stylesheet" href="../assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/plugins/alertify/css/themes/default.css">
+    <link rel="stylesheet" href="../assets/plugins/alertify/css/alertify.min.css">
+    <link rel="stylesheet" href="../assets/styles/Samad_Responsive_Layout.css">
+    <link rel="stylesheet" href="../assets/styles/style.css">
+    
+    <style type="text/css">
+        body{ overflow: hidden; }        
+
+        .swiper-container { /* width: unset; */ height: 100px; }
+        
+        main{ margin: 2.8em 0 0 0; display: flex;  }
+        main .left-sidebar{ width: 35%; margin: 0; padding: 0; position: unset; z-index: unset; border: none; display: flex; flex-flow: column; justify-content: space-between; }
+        main .right-sidebar{ width: 65%; margin: 0; padding: 0; background: rgb(245, 245, 245); }
+
+        main .left-sidebar .cart{ position: relative; height: calc(100vh - 345px); overflow: hidden; }
+        /* main .left-sidebar .cart .details{ height: calc(100vh - 441px); overflow-y: auto; overflow-x: hidden; position: relative; } */
+        main .left-sidebar .cart .details{ overflow-y: auto; overflow-x: hidden; }
+        main .left-sidebar .cart .row{ padding: 0 5px; display: grid; grid-template-columns: 5% 1fr 10% 15% 15%; justify-content: space-between; align-items: center; font-size: 14px; }
+        main .left-sidebar .cart .row.active{ background: rgb(252, 244, 230); }
+        main .left-sidebar .cart .row:not(:last-child){ border-bottom: solid 1px #eee; }
+
+        main .left-sidebar .cart-toolbar{ display: flex; }
+        main .left-sidebar .cart-toolbar .calculator{ flex: 1.5; position: relative; background-color: whitesmoke; overflow: hidden; }
+
+        main .left-sidebar .cart-toolbar .calculator .screen{ height: 52px; display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; background: #fff; border: solid 1px #ddd; }
+        main .left-sidebar .cart-toolbar .calculator .screen .computation{ font-size: 2em; margin-right: 10px; display: flex; justify-content: space-between; align-items: center; }
+        main .left-sidebar .cart-toolbar .calculator .screen .computation input#received{ border: none; background: none; -moz-appearance: textfield; font-size: 1em; font-family: 'Courier New', Courier, monospace; }
+        
+        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0;  }
+        
+        main .left-sidebar .cart-toolbar .calculator .screen button.clear{ padding: 7px 10px; background: #ddd; border-radius: 50%; opacity: .2; transition: all .38s ease-in-out; }
+
+        main .left-sidebar .cart-toolbar .calculator .keypad{ display: grid; grid-template-columns: auto auto; }
+        main .left-sidebar .cart-toolbar .calculator .keypad .num{ display: grid; grid-template-columns: repeat(3, auto);  }
+        main .left-sidebar .cart-toolbar .calculator .keypad button{ font-size: 1.35em; padding: 15.3px 20px; border: solid 1px #ccc; }
+        main .left-sidebar .cart-toolbar .calculator .keypad button:disabled{ background: #fff;  }
+
+        main .left-sidebar .cart-toolbar .calculator .keypad .currency{ display: grid; }
+        main .left-sidebar .cart-toolbar .calculator .keypad .currency button{ padding: 5px; }
+
+        main .left-sidebar .cart-toolbar .trans-bar{ flex: 1; display: flex; flex-flow: column; justify-content: space-between; color: #fff; }
+        #btnCheckout{ flex: 1; background:dodgerblue; }
+        main .left-sidebar .cart-toolbar .trans-bar .top{ height: 52px; display: flex; justify-content: space-between; align-items: center; text-align: center; background: #fff; color: gray; border-top: solid 1px #ddd; border-bottom: solid 1px #ddd; padding: 25px 5px; }
+        main .left-sidebar .cart-toolbar .trans-bar .top span:last-child{ font-size: 2em; font-family: 'Courier New', Courier, monospace }
+
+        main .left-sidebar .cart-toolbar .trans-bar .bottom{ height: 100px; flex: 1; display: flex; flex-flow: column; justify-content: center; align-items: center; gap: 10px; padding: 10px 15px; text-align: center; }
+        main .left-sidebar .cart-toolbar .trans-bar .bottom span{ font-size: 2em; background: #fff; padding: 10px 20px; border-radius: 50%; color: dodgerblue; }
+
+        main .right-sidebar .toolbar{ height: 60px; display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #eeeeee; width: 100%; }
+        main .right-sidebar .toolbar input{ width: 100%; border-radius: 30px; background: #fff; border: solid 1px dodgerblue; padding: 10px 50px 10px 20px; font-family: Verdana, Geneva, Tahoma, sans-serif; }
+        
+        main .right-sidebar .search-pane{ position: relative; }
+        main .right-sidebar .search-pane a{ position: absolute; top: 50%; right: 30px; transform: translate(-50% , -50%); }
+        main .right-sidebar .search-pane a i{ padding: 7px 10px; background: #ddd; border-radius: 50%; opacity: .2; transition: all .38s ease-in-out; }
+
+        main .right-sidebar #stock-pane{ height: calc(100vh - 120px); overflow: hidden; }
+        main .right-sidebar #stock-pane #stocks{ height: calc(100vh - 120px); }
+
+        main .right-sidebar #stock-pane #productCategories .item{ position: relative; display: flex; flex-flow: row; justify-content: space-between; height: 40px; overflow: hidden; padding: 0; font-size: 12px; background-color: #fff; box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1); transition: all .38s ease-in-out; }
+
+        .ajax-page#quickInvoicesLookup{ z-index: 2; }
+        .ajax-page#quickInvoicesLookup.open{ top: 20px; }
+        .ajax-page#quickInvoicesLookup .content{ display: grid; grid-template-columns: 20% 80%; }
+        .ajax-page#quickInvoicesLookup .content .left .bottom{ height: calc(100vh - 230px); overflow-y: auto; }
+
+       .tabulator#customers-table .tabulator-tableHolder .tabulator-table .tabulator-row #avatar img{ width: 50px; height: 50px; border-radius: 50%; }
+
+        main .left-sidebar .cart #carts{ display: grid; grid-template-columns: auto auto auto auto auto .5fr; }
+        
+        #cart_count{ position: absolute; top: 70px; right: 0; padding: 10px 20px; background: dodgerblue; color: #fff; z-index: 1; }
+        
+        /* APPLY TO EVERY TABULATOR TABLE */
+        .tabulator{ background: #f5f7ff; border: none; }
+        .tabulator .tabulator-tableHolder .tabulator-table{ width: 100%; }
+
+        .tabulator#stocks .tabulator-tableHolder .tabulator-table .tabulator-row{ white-space: normal; }
+        .tabulator .tabulator-footer .tabulator-paginator .tabulator-page[data-page="prev"], .tabulator .tabulator-footer .tabulator-paginator .tabulator-page[data-page="next"]{ background: rgb(43, 19, 21); color: #fff; border: inherit; }
+        .tabulator#shopping-cart-table .tabulator-footer .tabulator-calcs-holder .tabulator-row .tabulator-cell:last-child{ display: table-cell; padding: 10px 5px; color: #f05; }
+
+        .tabulator#stocks .tabulator-table{ background: #f5f7ff; display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; justify-content: flex-start; padding: 10px; }
+        .tabulator#stocks .tabulator-table .item{ width: 100%; height: auto; display: grid; padding: 0; font-size: 12px; background-color: #fff; box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1); transition: all .38s ease-in-out; }
+        .tabulator#stocks .tabulator-table .item p{ display: flex; flex-flow: row-reverse; justify-content: space-between; align-items: flex-end; margin-bottom: 0; padding: 0; }
+        .tabulator#stocks .tabulator-table .item section{ font-size: 12px; }
+        .tabulator#stocks .tabulator-table .item:active img{ transform: scale(.8); }
+
+        #createCustomerOverlay{ background: aliceblue; position: absolute; top: 0px; left: 20px; right: 20px; z-index: 8; display: none; box-shadow: 0 10px 10px 0 rgba(0, 0, 0, .1); }
+
+        #customerGroup .swiper-slide { width: 80%; margin: 5px; padding: 10px; background: #fff; font-size: 12px; box-shadow: 0 10px 10px 0 rgba(0, 0, 0, .1); display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; }
+
+        #customerGroup .swiper-slide:nth-child(2n) { width: 60%; }
+
+        #customerGroup .swiper-slide:nth-child(3n) { width: 40%; }
+
+        #cartOpts_overlay{ position: absolute; top: 100%; left: 0; height: 100%; right: 0; z-index: 1; background: aliceblue; transition: all .38s ease-in-out; }
+        #cartOpts_overlay.open{ top: 52px; }
+        #cartOpts_overlay #content{ font-size: 14px; }
+
+        @media screen and (max-width: 1360px) { main .left-sidebar{ width: 45%; } main .right-sidebar{ width: 55%; } .tabulator#stocks .tabulator-table{ grid-template-columns: repeat(3, 1fr); } main .right-sidebar .toolbar section:first-child button span{ display: none; } .tabulator#customers-table .tabulator-tableHolder .tabulator-table{ grid-template-columns: 1fr 1fr; } }
+        @media screen and (max-width: 1080px){ main .left-sidebar{ width: 55%; } main .right-sidebar{ width: 45%; } .tabulator#stocks .tabulator-table{ grid-template-columns: 1fr 1fr; } .tabulator#customers-table .tabulator-tableHolder .tabulator-table{ grid-template-columns: 1fr; } .ajax-page#billByCustomer .content #top{ grid-template-columns: 1fr 1.5fr; } .tabulator#customers-table .tabulator-tableHolder .tabulator-table{ grid-template-columns: 1fr; } }
+        @media screen and (max-width: 768px){ main .left-sidebar{ width: 60%; } main .right-sidebar{ width: 40%; } .ajax-page#quickInvoicesLookup .content{ padding-bottom: 50px; display: block; } main .left-sidebar .cart #carts{ grid-template-columns: 1fr 1fr 1fr auto; } main .left-sidebar .cart #carts button:nth-child(4), main .left-sidebar .cart #carts button:nth-child(5){ display: none; } main .left-sidebar .cart #carts button:last-child{ display: block; } .tabulator#stocks .tabulator-table{ grid-template-columns: 1fr; } .ajax-page#billByCustomer .content{ height: calc(100vh - 120px); overflow-y: auto; } .ajax-page#billByCustomer .content #top{ grid-template-columns: 1fr; } .ajax-page#billByCustomer .content #top #right{ display: none; position: absolute; top: inherit; } .ajax-page#billByCustomer .content #top #right a.close{ display: block; } .tabulator#customers-table .tabulator-tableHolder .tabulator-table{ grid-template-columns: 1fr 1fr; } .ajax-page#billByCustomer .search-pane button{ display: block; } }
+        @media screen and (max-width: 568px) { 
+            main{ position: relative; }
+            main .left-sidebar{ width: 100%; }
+            main .left-sidebar .cart{ position: relative; height: calc(100vh - 295px); overflow: hidden; }
+
+            main .left-sidebar .cart-toolbar .calculator .keypad button{ font-size: 16px; padding: 12px 15px; border: solid 1px #ccc; }
+
+            main .right-sidebar{ position: absolute; top: 60px; right: 100%; bottom: 0; z-index: 1; width: 100%; transition: all .38s ease-in-out; }
+             main .right-sidebar.open{ right: 0; }
+
+            .tabulator#stocks .tabulator-table{ grid-template-columns: repeat(2, 1fr); }
+
+            main .left-sidebar .cart #carts button{ position: relative; }
+            main .left-sidebar .cart #carts button.active.withChevron::before{ content: ''; position: absolute; top: 60%; left: 50%; transform: translate(-50%, 0%); border-top: solid 10px transparent; border-right: solid 10px transparent; border-bottom: solid 10px #eee; border-left: solid 10px transparent; z-index: 1; }
+            .ajax-page#quickInvoicesLookup.open{ top: -40px; }
+        }
+    </style>
+</head>
+<body>
+    
+    <header>
+        <div class="navbrand">
+            <img class="app-icon" src="../assets/img/cart.bmp" alt="App Icon">
+            <a href="">
+                <b>MyShop OS</b>
+                <small>#1 Smart Billing App</small>
+            </a>
+        </div>
+        <div class="swiper" id="navMenuSwiper">
+            <div class="swiper-wrapper">
+                <a href="../dashboard" class="swiper-slide"><i class="fa fa-dashboard"></i> DASHBOARD</a>
+                <a href="javascript:void(0);" class="swiper-slide active"><i class="fa fa-shopping-cart"></i> POS</a>
+                <a href="../contacts" class="swiper-slide"><i class="fa fa-handshake-o"></i> CONTACTS</a>
+                <a href="../stock" class="swiper-slide"><i class="fa fa-shopping-basket"></i> STOCK</a>
+                <a href="../staff" class="swiper-slide"><i class="fa fa-user"></i> STAFF</a>
+                <a href="../finance" class="swiper-slide"><i class="fa fa-money"></i> FINANCE</a>
+                <a href="../report" class="swiper-slide"><i class="fa fa-bar-chart"></i> REPORT</a>
+                <a href="../config" class="swiper-slide"><i class="fa fa-cog"></i> CONFIG</a>
+            </div>
+        </div>
+        <div style="position: unset;">
+            <a href="javascript:void(0);" id="btnShowNotifs">
+                <i class="fa fa-bell-o"></i>
+                <small id="badge" style="position: absolute; top: 13px; left: calc(100% - 27px); border-radius: 50%; font-size: 13px; text-align: center;"></small>
+            </a> 
+        </div>
+        <div>
+            <a href="javascript:void(0);">
+                <img class="activeUser_avatar" src="../assets/img/avatar.jpg" alt="" width="30px" height="30px" />
+                <i class="fa fa-caret-up"></i>
+            </a>                      
+            <menu>
+                <section>
+                    <img  class="activeUser_avatar" src="../assets/img/avatar.jpg" alt="" width="80px" height="80px" />
+                    <small></small>
+                </section>
+                <section>
+                    <a href="javascript:void(0);" id="btnHelp"><i class="fa fa-info-circle fa-2x"></i><small>Help</small></a>
+                    <a href="javascript:void(0);" id="btnLogout"><i class="fa fa-power-off fa-2x"></i><small>Logout</small></a> 
+                </section>
+            </menu>
+        </div>
+    </header>
+
+    <main style="padding-top: 1rem;">
+        <div class="left-sidebar">            
+           
+            <div class="cart">
+                <div id="shopping-cart-table"></div>
+            </div>
+            
+            <div class="cart-toolbar">
+                <div class="trans-bar">
+                    <div class="top"><span>&#x20b5;</span><span id="balance">0.00</span></div>
+                    <div style="position: relative; display: grid; grid-template-columns: 1fr auto; margin: 0;">
+                        <div class="select-container" style="display: grid; grid-template-columns: 1fr auto;">
+                            <select disabled id="payment_methods" style="height: unset; background: #fff;">
+
+                            </select>
+                        </div>
+                        <button type="button" id="btnExtCartOpts" class="btn btn-sm btn-default no-udl clr-white" onclick="$('#cartOpts_overlay').toggleClass('open');"><i class="fa fa-ellipsis-h"></i></button>
+                    </div>
+                    <button disabled type="button" id="btnCheckout" class="btn btn-primary bottom no-udl clr-white"><span style="padding: 0 10px;">&#x20b5;</span><section id="transID"></section></button>
+                    <!-- <button type="button" id="btnBillByCustomer" class="btn btn-default no-udl clr-white" onclick="$('.ajax-page#billByCustomer').addClass('open');"><i class="fa fa-users"></i> Customer</button> -->
+                    <!-- <div class="select-container">
+                        <select disabled id="cust_id" style="height: unset; background: #fff;">
+                            <option value="">--- Customer ---</option>
+                        </select>
+                    </div> -->
+                    <div style="display: grid; grid-template-columns: 1fr auto; margin: 0;">
+                        <input disabled type="text" id="selCustomer" placeholder="Set Customer ->" style="padding: 0 3px;">
+                        <button type="button" id="btnBillByCustomer" class="btn btn-sm btn-default no-udl clr-white"><i class="fa fa-handshake-o"></i></button>
+                    </div>
+                </div>
+                <!-- RECEIPT STICKER LABELS -->
+                <div hidden id="qr"></div>
+                <div hidden id="barcode-container">
+                    <img id="barcode" style="width: 200px !important; height: 100px !important; margin: 0 !important;" />
+                </div>
+                <div class="calculator">
+                    <div class="screen">
+                        <div class="computation"><input disabled type="text" id="received" class="txt-right" placeholder="received"></div>
+                        <button disabled type="button" class="clear no-udl clr-inverse" onclick="$('main .left-sidebar .cart-toolbar .calculator .screen .computation :input').val('').trigger('input').focus(); $('main .left-sidebar .cart-toolbar .trans-bar .top span:last').text('0.00'); $(this).prop('disabled', true).css('opacity', .1);"><i class="fa fa-times"></i></button>
+                    </div>
+                    <div class="keypad">
+                        <div class="num">
+                            <button disabled type="button" class="btn btn-default">7</button>
+                            <button disabled type="button" class="btn btn-default">8</button>
+                            <button disabled type="button" class="btn btn-default">9</button disabled>                           
+                            <button disabled type="button" class="btn btn-default">4</button>
+                            <button disabled type="button" class="btn btn-default">5</button>
+                            <button disabled type="button" class="btn btn-default">6</button>                            
+                            <button disabled type="button" class="btn btn-default">1</button>
+                            <button disabled type="button" class="btn btn-default">2</button>
+                            <button disabled type="button" class="btn btn-default">3</button>
+                            <button disabled type="button" class="btn btn-warning cmd dot"><small><i class="fa fa-circle"></i></small></button>
+                            <button disabled type="button" class="btn btn-default">0</button>
+                            <button disabled type="button" class="btn btn-danger cmd backspace"><i class="fa fa-times"></i></button>
+                        </div>
+
+                        <div class="currency">
+                            <button disabled type="button" class="btn btn-success">200</button>
+                            <button disabled type="button" class="btn btn-success">100</button>
+                            <button disabled type="button" class="btn btn-success">50</button>
+                            <button disabled type="button" class="btn btn-success">20</button>
+                        </div>
+                    </div> 
+                    <div id="cartOpts_overlay">
+                        <div id="content">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr;">
+                                <div class="form-group" style="margin-top: 10px;">
+                                    <div class="checkbox">
+                                        <input hidden type="checkbox" name="toggleVAT" id="toggleVAT" class="custom-checkbox"><label for="toggleVAT" style='cursor: pointer;'>&nbsp;VAT[&nbsp;<span class="clr-f05" id="VAT_RATE">N/A</span>&nbsp;] = <span id="vat_amount">0.00</span></label>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin-top: 10px;">
+                                    <div class="checkbox">
+                                        <input hidden type="checkbox" name='toggleDiscount' id='toggleDiscount' class="custom-checkbox"><label for='toggleDiscount' style='cursor: pointer;'>&nbsp;Dis<u>c</u>[&nbsp;<span class="clr-f05" id="DISCOUNT_RATE">N/A</span>&nbsp;] = <span id="discount_amount">0.00</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 5px;">
+                                <label class="floated-up-lbl" style="top: -10px;">Footer Text</label>
+                                <div class="bg-white" data-pref='{"module": "receipt", "pref": "footer.bottom"}' id="custom_receipt_footer_text"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ajax-page" id ="billByCustomer">
+                <div class="title" style="display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
+                    <span>CUSTOMER BILL</span>
+                    <a href="javascript:void(0);" class="close clr-danger no-udl" style="position: unset; top: unset; padding: unset;" onclick="$(event.target).closest('.ajax-page').removeClass('open');"><i class=""></i>&times;</a>
+                </div>
+                <div class="content">
+                    <div id="top">
+                        <div id="left">
+                            <div class="row">
+                                <div class="cl-12 cm-12 cs-12 cx-12 search-pane">
+                                    <div class="form-group" style="margin: 0;">
+                                        <input type="search" id="find_customer"placeholder="Search customer...">
+                                        <label for="find_customer" style="cursor: pointer;"><i class="fa fa-search clr-primary" style="width: 40px; height: 40px; display: flex; justify-content: center; align-items: center;"></i></label>
+                                    </div>
+                                    <button type="button" class="btn btn-default" onclick="$('.ajax-page#billByCustomer .content #top #right').slideToggle();">Create</button>
+                                </div>
+                            </div>
+                            <!-- FETCH CUSTOMERS DETAILS HERE -->
+                            <div id="customers-table"></div>
+                        </div>
+                        <div id="right">
+                            <a href="javascript:void(0);" class="btn-sm clr-default close" style="position: absolute; top: 0;" onclick="$('#billByCustomer .search-pane button').click();"><i class="fa fa-chevron-left fa-2x"></i></a>  
+                            <div id="createCustomerOverlay">
+                                <div class="form-group" style="display: flex; align-items: center; margin: 10px 0 0 0;">
+                                    <a href="javascript:void(0);" class="btn-sm clr-default" onclick="$('#createCustomerOverlay').slideUp();"><i class="fa fa-chevron-left"></i></a>
+                                    <section style="flex: 1;">
+                                        <input type="text" name="cust_group_title" id="cust_group_title" class="txt-u" style="margin-left: 5px;" required>
+                                        <label for="cust_group_title" class="floated-up-lbl">Title</label>
+                                    </section>
+                                    <button type="button" class="btn btn-primary btn-sm new" id="btnSaveCustomerGroup"><i class="fa fa-save"></i></button>
+                                </div>
+                                <!-- Slider main container -->
+                                <div class="swiper-container" id="customerGroup" style="height: unset;">
+                                    <!-- Additional required wrapper -->
+                                    <div class="swiper-wrapper">
+                                        <!-- Slides -->
+                                        <!-- <div class="swiper-slide">Slide 1</div>
+                                        <div class="swiper-slide">Slide 2</div>
+                                        <div class="swiper-slide">Slide 3</div> -->
+                                    </div>
+                                    <!-- If we need pagination -->
+                                    <!-- <div class="swiper-pagination"></div> -->
+                                
+                                    <!-- If we need navigation buttons -->
+                                    <!-- <div class="swiper-button-prev"></div> -->
+                                    <!-- <div class="swiper-button-next"></div> -->
+                                
+                                    <!-- If we need scrollbar -->
+                                    <div class="swiper-scrollbar"></div>
+                                </div>
+                            </div>   
+                            <div class="txt-center">
+                                <small><u>N</u>ew Customer</small> 
+                            </div>                       
+                            <form role="form" id="crudCustomer" autocomplete="off" enctype="multipart/form-data">
+                                <div class="row">
+                                    <div class="cl-12 cm-12 cs-12 cx-12">
+                                        <div class="row">
+                                            <div class="cl-3 cm-3 cs-3 cx-4">
+                                                <div class="form-group">
+                                                    <input type="file" accept="image/png, image/jpeg" name="customer_photo" id="customer_photo" data-max-file-size="3MB">
+                                                </div>                                                
+                                            </div>
+                                            <div class="cl-9 cm-9 cs-9 cx-12">
+                                                <div class="row">
+                                                    <div class="cl-6 cm-6 cs-6 cx-6" style="position: relative;">
+                                                        <div class="form-group" style="margin: inherit 20px 20px 20px; display: flex;">
+                                                            <div class="select-container">
+                                                                <select name="cust_group" id="cust_group" required>
+                                                                    <option value="">--- select ---</option>
+                                                                </select>
+                                                                <label for="cust_group" class="floated-up-lbl" style="top: -5px;">Group / Tag</label>
+                                                                <sup class="required"><i class="fa fa-asterisk clr-danger"></i></sup>
+                                                            </div>
+                                                            <button type="button" class="btn btn-default btn-sm" onclick="$('#createCustomerOverlay').slideDown(() => $('#cust_group_title').focus());"><i class="fa fa-plus"></i></button>
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="cl-3 cm-3 cs-3 cx-3">
+                                                        <div class="form-group">
+                                                            <input type="number" min="0" step=".01" name="cust_creditLimit" id="cust_creditLimit">
+                                                            <label for="cust_creditLimit" class="floated-up-lbl" style="top: -5px;">Credit Limit</label>
+                                                        </div>
+                                                    </div> 
+                                                    <div class="cl-3 cm-3 cs-3 cx-3">
+                                                        <div class="form-group" style=" padding-top: 15px; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; align-items: center; justify-content: space-between;">
+                                                            <div class='checkbox'>
+                                                                <input hidden type="checkbox" name="isDefaultCustomer" id="isDefaultCustomer" value="1" class="custom-checkbox"><label for="isDefaultCustomer" style='cursor: pointer;'>&nbsp;Default</label>
+                                                            </div>
+                                                        </div>
+                                                    </div> 
+                                                    <div class="cl-9 cm-9 cs-9 cx-12">
+                                                        <div class="form-group" style=" padding-top: 15px; display: grid; grid-template-columns: repeat(4, auto); gap: 10px; align-items: center; justify-content: space-between;">
+                                                            <label for="allowed_payment_methods" class="floated-up-lbl" style="top: -5px;">Allowed Payment Methods</label>
+                                                            <div class="checkbox">
+                                                                <input hidden type="checkbox" name="allowed_payment_methods" id="1" class="custom-checkbox" value="1"><label for="1" style="cursor: pointer;">&nbsp;Cash</label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <input hidden type="checkbox" name="allowed_payment_methods" id="2" class="custom-checkbox" value="2"><label for="2" style="cursor: pointer;">&nbsp;MoMo</label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <input hidden type="checkbox" name="allowed_payment_methods" id="3" class="custom-checkbox" value="3"><label for="3" style="cursor: pointer;">&nbsp;POS</label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <input hidden type="checkbox" name="allowed_payment_methods" id="4" class="custom-checkbox" value="4"><label for="4" style="cursor: pointer;">&nbsp;Credit</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>  
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="cl-12 cm-12 cs-12 cx-12">
+                                        <div class="form-group">
+                                            <input type="text" maxlength="50" name="cust_name" id="cust_name" class="txt-u" required>
+                                            <label for="cust_name" class="floated-up-lbl">Name / Company</label>
+                                            <sup class="required"><i class="fa fa-asterisk clr-danger"></i></sup>
+                                        </div>
+                                    </div> 
+                                    <div class="cl-6 cm-6 cs-6 cx-6">
+                                        <div class="form-group">
+                                            <input type="text" name="cust_tin" id="cust_tin" class="txt-u">
+                                            <label for="cust_tin" class="floated-up-lbl">VAT Number</label>
+                                        </div>
+                                    </div>
+                                    <div class="cl-6 cm-6 cs-6 cx-6">
+                                        <div class="form-group">
+                                            <input type="text" minlength="10" maxlength="10" name="cust_phone" id="cust_phone" required>
+                                            <label for="cust_phone" class="floated-up-lbl">Phone</label>
+                                            <sup class="required"><i class="fa fa-asterisk clr-danger"></i></sup>
+                                        </div>
+                                    </div>
+                                    <div class="cl-12 cm-12 cs-12 cx-12">
+                                        <div class="form-group">
+                                            <input type="email" name="cust_email" id="cust_email" class="txt-l">
+                                            <label for="cust_email" class="floated-up-lbl">Email</label>
+                                        </div>
+                                    </div>
+                                    <div class="cl-10 cm-8 cs-9 cx-9">
+                                        <div class="form-group" style="margin: inherit 20px 20px 20px;">
+                                            <div class="select-container">
+                                                <select disabled name="cust_country" id="cust_country" class="txt-u" required>
+                                                    <option value="">--- select ---</option>
+                                                </select>
+                                            </div>
+                                            <label for="cust_country" class="floated-up-lbl" style="top: -5px;">Country</label>
+                                            <sup class="required"><i class="fa fa-asterisk clr-danger"></i></sup>
+                                        </div>
+                                    </div>
+                                    <div class="cl-2 cm-4 cs-3 cx-3">
+                                        <div class="form-group">
+                                            <input type="text" name="cust_zipcode" id="cust_zipcode" class="txt-u">
+                                            <label for="cust_zipcode" class="floated-up-lbl">Zipcode</label>
+                                        </div>
+                                    </div>
+                                    <div class="cl-12 cm-12 cs-12 cx-12">
+                                        <div class="form-group" style="margin: inherit 20px 20px 20px;">
+                                            <textarea type="text" name="cust_addr" id="cust_addr" class="txt-u" rows="1" required></textarea>
+                                            <label for="cust_addr" class="floated-up-lbl" style="top: -5px;">Address</label>
+                                            <sup class="required"><i class="fa fa-asterisk clr-danger"></i></sup>
+                                        </div>
+                                    </div>    
+                                    <div class="cl-12 cm-12 cs-12 cx-12">
+                                        <div class="form-group txt-right" style="margin-top: 0; display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; justify-content: space-between;">
+                                            <button hidden type="button" class="btn btn-danger" id="btn_delCust"><i class="fa fa-trash"></i> Delete</button>&nbsp;
+                                            <button type="submit" class="btn btn-primary new"><i class="fa fa-save"></i> Save</button>
+                                        </div>
+                                    </div>                                                                                                         
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right-sidebar" style="display: unset;">
+            <div class="toolbar" style="padding: 0; position: relative;">              
+                <!-- <section> -->
+                    <button type="button" class="btn" id="btnMoreOpts" style="background: #fff; color: teal; border: solid 2px teal;"><i class="fa fa-ellipsis-h" style="transform: scale(2);"></i> <span></span></button>
+                    <!-- <button type="button" class="btn btn-default" style="height: 50px;" onclick="ClearCart();"><i class="fa fa-tv"></i></button> -->
+                <!-- </section> -->
+                <div class="search-pane form-group" style="width: 100%">
+                    <input autofocus type="search" id="find_item" placeholder="Scan or Type item...">
+                    <a href="javascript:void(0);" class="no-udl clr-inverse" onclick="$('#find_item').val('').focus(); $('#find_item').trigger('input');"><i class="fa fa-times"></i></a>
+                    <!-- <div class="bg-white txt-center" id="selCategoriesFilter" style="width: 100%; position: absolute; top: 105%; left: 50%; z-index: 1; transform: translate(-50%, -50%); padding: 3px 10px; border-radius: 33px; display: grid; grid-template-columns: auto 1fr auto; justify-content: space-between; align-items: center; border: solid 1px dodgerblue;">
+                        <a href="javascript:void(0);" class="bg-danger no-udl" id="btnClear_filterCategory" style="position: unset; left: unset;">
+                            <span class="fa fa-times-circle clr-danger" style="font-size: 20px;"></span>
+                        </a>
+                        <small style="margin-left: 15px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">All Categories</small>
+                        <a href="javascript:void(0);" class="bg-danger no-udl" id="btnReloadData" style="left: unset; right: 20px;">
+                            <span class="fa fa-refresh clr-primary" style="font-size: 20px;"></span>
+                        </a>
+                    </div> -->
+                </div>
+            </div>
+            <div id="stock-pane">
+                <div id="stocks"></div>
+                <div id="productCategories" class="swiper">
+                    <div class="swiper-wrapper">
+                        <!-- To be injectetd from server categories data -->
+                    </div>
+                </div>
+            </div>    
+
+            <div class="ajax-page" id ="quickInvoicesLookup">
+                <div class="title" style="display: flex; justify-content: space-between; align-items: center; padding: 0 10px;">
+                    <span>QUICK INVOICES LOOKUP</span>
+                    <a href="javascript:void(0);" class="close clr-danger no-udl" style="position: unset; top: unset; padding: unset;" onclick="$(event.target).closest('.ajax-page').removeClass('open');"><i class=""></i>&times;</a>
+                </div>
+                <div class="content">
+                    <div class="top left">
+                        <div class="row">
+                            <div class="cl-12 cm-12 cs-12 cx-12">
+                                <div class="row" style="position: relative;">
+                                    <div class="cl-12 cm-12 cs-4 cx-5">
+                                        <div class="form-group">
+                                            <div class="date-container">
+                                                <input type="date" name="dateFrom" id="dateFrom">
+                                                <label for="dateFrom" class="floated-up-lbl" style="top: -5px;">From</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="cl-12 cm-12 cs-4 cx-5">
+                                        <div class="form-group">
+                                            <div class="date-container">
+                                                <input type="date" name="dateTo" id="dateTo">
+                                                <label for="dateTo" class="floated-up-lbl" style="top: -5px;">To</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="cl-12 cm-12 cs-4 cx-2 search-pane float-xs">
+                                        <div class="form-group">
+                                            <input type="search" id="find_invoice" placeholder="Search by item, teller or invoice...">
+                                            <label for="find_invoice" style="cursor: pointer;"><i class="fa fa-search clr-primary" style="width: 40px; height: 40px; display: flex; justify-content: center; align-items: center;"></i></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                            
+                    </div>
+                    <div class="right" style="padding: 0 10px;">
+                        <!-- FETCH UNIQUE INVOICES DETAILS HERE -->
+                        <div id="sales-invoices-table"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="../assets/js/jquery-3.3.1.min.js"></script>
+    <script src="../assets/plugins/alertify/alertify.min.js"></script>
+    
+    <script src="../assets/plugins/notify.js"></script>
+
+   <script src="../assets/plugins/tabulator-master/dist/xlsx.full.min.js"></script>
+    <script src="../assets/plugins/tabulator-master/dist/jspdf.min-1.3.5.js"></script>
+    <script src="../assets/plugins/tabulator-master/dist/jspdf.plugin.autotable-3.0.5.js"></script>
+
+    <script src="../assets/plugins/loadash-4.15.0.js"></script>
+    <script src="../assets/plugins/moment-with-locales.min.js"></script>
+    <script src="../assets/plugins/qrcoder/qrcode.min.js"></script>  
+    <script src="../assets/plugins/JsBarcode-3.6.0.all.min.js"></script>  
+    <script src="../assets/plugins/pluralize.js"></script>  
+
+    <script src="../assets/plugins/he.js"></script>
+    <script src="../assets/plugins/ysEditor.js-master/dist/js/yseditor.min.js"></script>
+
+    <script type="module" src="../assets/js/event.js"></script>
+    <script defer type="module" src="./evt.js" defer></script>
+
+</body>
+</html>

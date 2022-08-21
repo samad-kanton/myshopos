@@ -1,0 +1,38 @@
+{
+  "name": "Myshop Operating Solutions",
+  "short_name": "Myshop OS",
+  "description": "Smart Billing App for Retail Businesses.",
+  "start_url": "/",
+  "display_override": ["window-control-overlay", "minimal-ui"],
+  "display": "standalone",
+  "background_color": "#1e90ff",
+  "theme_color": "#4285f4",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/assets/icons/64x64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/Icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/xxxhdpi.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }      
+  ]    
+}
